@@ -2,11 +2,14 @@ import React from "react";
 import { Box, Typography, TextField, Grid, Paper, Stack } from '@mui/material'
 import Sign_up from "./Sign_up";
 import Login from "./Login";
-import Game_Componenet from "./Game_Component";
+import Game_Component from "./Game_Component";
+
 
 
 const Dashboard = () => {
-    
+    function GameData( pic, name, peak_players, in_game, original_price, on_discount, discount_end ) {
+        return { pic, name, peak_players, in_game, original_price, on_discount, discount_end };
+      }
 
     return (
         <>
@@ -25,23 +28,79 @@ const Dashboard = () => {
                     <Grid item xs= {12} sx={{padding: 2}}>
                         <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
                             <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
-                            <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>Login</Typography>
+                            <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer', textDecoration: 'underline' }}}>Login</Typography>
                             <Typography sx={{color: "#FFFFFF"}}>or</Typography>
-                            <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>Sign up</Typography>
+                            <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer', textDecoration: 'underline' }}}>Sign up</Typography>
                         </Stack>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Box>
-
-                        </Box>
-                    </Grid>
-                    <Grid item xs={6}>
-
-                    </Grid>
                     <Grid item xs={12}>
-
+                        <Stack alignItems="center" justifyContent="center">
+                            <Typography variant="h5" sx={{color: "#FFFFFF"}}>Welcome to Sustraplay Library, Gamers!</Typography>
+                            <Typography sx={{color: "#FFFFFF"}}>Sales, Active Players, Most Played, News, and So on. Find your game here at once</Typography>
+                        </Stack>
                     </Grid>
                 </Grid>
+                <Grid container spacing={2} sx={{padding: 5, paddingX: 10}}>
+                    <Grid item alignItems='center' justifyContent='center' xs={6}>
+                        <Stack flex={1}>
+                            <Box sx={{backgroundColor: '#232738', height: 298, maxWidth: 850, marginLeft: 8}}>
+                                <Box sx={{backgroundColor: '#272E47', height: 40}}>
+                                    <Grid container>
+                                        <Grid item xs={7}>
+                                            <Typography sx={{color: "#FFFFFF"}}>Most Played Amongst Gamers</Typography>
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                            <Typography sx={{color: "#FFFFFF"}}>Peak players</Typography>
+                                        </Grid>
+                                        <Grid item xs={2}>
+                                            <Typography sx={{color: "#FFFFFF"}}>In-game</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Box>
+                            </Box>
+                        </Stack>
+                    </Grid>
+                    <Grid item alignItems='center' justifyContent='center' xs={6}>
+                        <Box sx={{backgroundColor: '#232738', height: 298, maxWidth: 850}}>
+                            <Box sx={{backgroundColor: '#272E47', height: 40}}>
+                                <Grid container>
+                                    <Grid item xs={7}>
+                                        <Typography sx={{color: "#FFFFFF"}}>New Released Games</Typography>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <Typography sx={{color: "#FFFFFF"}}>Peak players</Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Typography sx={{color: "#FFFFFF"}}>In-game</Typography>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                            <Game_Component pic="https://via.placeholder.com/93x44" name="CS" peak="100" current="20" />
+                        </Box>
+                    </Grid>
+                    <Grid item alignItems='center' justifyContent='center' xs={12}>
+                        <Box sx={{backgroundColor: '#232738', height: 298, maxWidth: 950}}>
+                            <Box sx={{backgroundColor: '#272E47', height: 40}}>
+                                
+                                <Grid container>
+                                    <Grid item xs={6}>
+                                        <Typography sx={{color: "#FFFFFF"}}>Games on Discount</Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Typography sx={{color: "#FFFFFF"}}>Original price</Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Typography sx={{color: "#FFFFFF"}}>On discount</Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Typography sx={{color: "#FFFFFF"}}>Ends on</Typography>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </Box>
+                    </Grid>
+                </Grid>
+                
             </Box>
         </>
     )
