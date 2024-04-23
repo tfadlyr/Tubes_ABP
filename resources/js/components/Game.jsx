@@ -2,11 +2,37 @@ import React from "react";
 import { Box, Typography, TextField, Grid, Paper, Stack, colors, Divider } from '@mui/material'
 import '../../css/app.css';
 import { auto } from "@popperjs/core";
+import { Link } from "react-router-dom";
 
 const Game =() => {
     return (
         <>
-            <Box sx={{backgroundColor: 'var(--main-background-color)', maxHeight: auto, padding: 10, g: 10 }}>
+            <Box sx={{backgroundColor: '#13151E', width: '100vw', height: 90 }}>
+                <Paper elevation={3} sx={{backgroundColor: '#1A1D28', height: 90, paddingX: 3 }}>
+                        <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
+                            <Grid item xs={9.5}>
+                                <Link to={`/`}>
+                                    <Typography variant="h4" sx={{color: '#FFFFFF'}}>Sustraplay Library</Typography>
+                                </Link>
+                            </Grid>
+                            <Grid item xs={2.5}>
+                                <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, width: 384}}/>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                    <Grid container>
+                        <Grid item xs= {12} sx={{padding: 2}}>
+                            <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
+                                <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
+                                <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer', textDecoration: 'underline' }}}>Login</Typography>
+                                <Typography sx={{color: "#FFFFFF"}}>or</Typography>
+                                <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer', textDecoration: 'underline' }}}>Sign up</Typography>
+                            </Stack>
+                        </Grid>
+                    </Grid>
+
+            </Box>
+            <Box sx={{backgroundColor: 'var(--main-background-color)', maxHeight: auto, width: '100vw', padding: 10, g: 10 }}>
                 <Stack direction="column" justifyContent="flex-start" spacing={1}>
                     <Typography sx={{color: "var(--main-text-color)", fontSize: 48, fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>Counter-Strike 2</Typography>
                     <Typography sx={{color: "var(--main-text-color)"}}>Current price: harga_sekarang (misal 9,000,000)</Typography>

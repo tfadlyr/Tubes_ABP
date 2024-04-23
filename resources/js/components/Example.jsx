@@ -2,12 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Dashboard from './Dashboard';
 import Game from './Game';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function Example() {
     return (
         <>
-            <Dashboard/>
-            {/* <Game/> */}
+            <Router>
+                <Routes>
+                <Route path="/" element={<Dashboard/>} />
+                <Route path="/game" element={<Game/>} />
+                </Routes>
+            </Router>
         </>
     );
 }

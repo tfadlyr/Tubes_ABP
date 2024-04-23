@@ -7,9 +7,6 @@ import Game_Component from "./Game_Component";
 
 
 const Dashboard = () => {
-    function GameData( pic, name, peak_players, in_game, original_price, on_discount, discount_end ) {
-        return { pic, name, peak_players, in_game, original_price, on_discount, discount_end };
-      }
 
     return (
         <>
@@ -41,7 +38,7 @@ const Dashboard = () => {
                     </Grid>
                 </Grid>
                 <Grid container spacing={2} sx={{padding: 5, paddingX: 10}}>
-                    <Grid item alignItems='center' justifyContent='center' xs={6}>
+                    <Grid item xs={6}>
                         <Stack flex={1}>
                             <Box sx={{backgroundColor: '#232738', height: 298, maxWidth: 850, marginLeft: 8, borderRadius: 3}}>
                                 <Box sx={{backgroundColor: '#272E47', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
@@ -61,8 +58,8 @@ const Dashboard = () => {
                             </Box>
                         </Stack>
                     </Grid>
-                    <Grid item alignItems='center' justifyContent='center' xs={6}>
-                        <Box sx={{backgroundColor: '#232738', height: 298, maxWidth: 850, borderRadius: 3}}>
+                    <Grid item xs={6}>
+                        <Box sx={{backgroundColor: '#232738', height: 298, maxWidth: 850, marginRight: 8, borderRadius: 3}}>
                             <Box sx={{backgroundColor: '#272E47', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
                                 <Grid container>
                                     <Grid item xs={7}>
@@ -102,6 +99,9 @@ const Dashboard = () => {
                                 </Box>
                             </Box>
                         </Stack>
+                    </Grid>
+                    <Grid item xs={12}>
+                        {/* <img src={}/> */}
                     </Grid>
                 </Grid>
                 
