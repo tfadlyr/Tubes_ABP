@@ -40,35 +40,35 @@ const Game =() => {
                     </Grid>
                     <Grid item xs={5}>
                         <Stack sx={{color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', justifyContent: 'space-between', padding: 0.5}}>
-                            <Grid item sx={{backgroundColor: 'var(--var1-gamepage)', color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1}}>
+                            <Grid item className="var1GamePage">
                                 <Typography variant="h6">Developer</Typography>
                                 <Typography variant="h6">Valve Industries</Typography>
                             </Grid>
-                            <Grid item sx={{backgroundColor: 'var(--var2-gamepage)', color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1}}>
+                            <Grid item className="var2GamePage">
                                 <Typography variant="h6">Publisher</Typography>
                                 <Typography variant="h6">Valve Industries</Typography>
                             </Grid>
-                            <Grid item sx={{backgroundColor: 'var(--var1-gamepage)', color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1}}>
+                            <Grid item className="var1GamePage">
                                 <Typography variant="h6">Supported Systems</Typography>
                                 <Typography variant="h6">Wingodswes</Typography>
                             </Grid>
-                            <Grid item sx={{backgroundColor: 'var(--var2-gamepage)', color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1}}>
+                            <Grid item className="var2GamePage">
                                 <Typography variant="h6">Technologies / Game engine</Typography>
                                 <Typography variant="h6">Source 3.0</Typography>
                             </Grid>
-                            <Grid item sx={{backgroundColor: 'var(--var1-gamepage)', color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1}}>
+                            <Grid item className="var1GamePage">
                                 <Typography variant="h6">Last update</Typography>
                                 <Typography variant="h6">teuing iraha</Typography>
                             </Grid>
-                            <Grid item sx={{backgroundColor: 'var(--var2-gamepage)', color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1}}>
+                            <Grid item className="var2GamePage">
                                 <Typography variant="h6">Release date</Typography>
                                 <Typography variant="h6">teu apal</Typography>
                             </Grid>
-                            <Grid item sx={{backgroundColor: 'var(--var1-gamepage)', color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1}}>
+                            <Grid item className="var1GamePage">
                                 <Typography variant="h6">Game Genre</Typography>
                                 <Typography variant="h6">teuing</Typography>
                             </Grid>
-                            <Grid item sx={{backgroundColor: 'var(--var2-gamepage)', color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 1}}>
+                            <Grid item className="var2GamePage">
                                 <Typography variant="h6">Age rating</Typography>
                                 <Typography variant="h6">22+</Typography>
                             </Grid>
