@@ -9,6 +9,8 @@ const Game =() => {
     const [data, setProductData] = useState(null)
     const [loading, setLoading] = useState(true)
     const idGame = useParams().idGame;
+    const peekPlayer = useParams().peekPlayer;
+    const inGamePeek = useParams().inGamePeek;
 
     async function loadData(){
         const request = await fetch(
@@ -94,19 +96,40 @@ const Game =() => {
                             <Grid item className="var1GamePage">
                                 <Typography variant="h6">Developer</Typography>
                                 <Grid className="dataTypography">
-                                    {data.developers.map(dev => <Typography variant="h6" key={dev.id}>{dev.name}</Typography>)}
+                                    {
+                                        data.developers.map((dev, index) =>{
+                                            if(index === data.developers.length - 1){
+                                                return <Typography variant="h6" key={dev.id}>{dev.name}</Typography>
+                                            }
+                                            return <Typography variant="h6" key={dev.id}>{dev.name}, </Typography>
+                                        })
+                                    }
                                 </Grid>
                             </Grid>
                             <Grid item className="var2GamePage">
                                 <Typography variant="h6">Publisher</Typography>
                                 <Grid className="dataTypography">
-                                    {data.publishers.map(pub => <Typography variant="h6" key={pub.id}>{pub.name}</Typography>)}
+                                    {
+                                        data.publishers.map((pub, index) => {
+                                            if(index === data.publishers.length - 1){
+                                                return <Typography variant="h6" key={pub.id}>{pub.name}</Typography>
+                                            }
+                                            return <Typography variant="h6" key={pub.id}>{pub.name}, </Typography>
+                                        })    
+                                    }
                                 </Grid>
                             </Grid>
                             <Grid item className="var1GamePage">
                                 <Typography variant="h6">Supported Systems</Typography>
                                 <Grid className="dataTypography">
-                                    {data.parent_platforms.map(plat => <Typography variant="h6" key={plat.platform.id}>{plat.platform.name}</Typography>)}
+                                    {
+                                        data.parent_platforms.map((plat, index) => {
+                                            if(index === data.parent_platforms.length - 1){
+                                                return <Typography variant="h6" key={plat.platform.id}>{plat.platform.name}</Typography>
+                                            }
+                                            return <Typography variant="h6" key={plat.platform.id}>{plat.platform.name}, </Typography>
+                                        })
+                                    }
                                 </Grid>
                             </Grid>
                             <Grid item className="var2GamePage">
@@ -118,7 +141,14 @@ const Game =() => {
                             <Grid item className="var1GamePage">
                                 <Typography variant="h6">Game Genre</Typography>
                                 <Grid className="dataTypography">
-                                    {data.genres.map(genre => <Typography variant="h6" key={genre.id}>{genre.name}</Typography>)}
+                                    {
+                                        data.genres.map((genre, index) => {
+                                            if(index === data.genres.length - 1){
+                                                return <Typography variant="h6" key={genre.id}>{genre.name}</Typography>
+                                            }
+                                            return <Typography variant="h6" key={genre.id}>{genre.name}, </Typography>
+                                        })
+                                    }
                                 </Grid>
                             </Grid>
                             <Grid item className="var2GamePage">

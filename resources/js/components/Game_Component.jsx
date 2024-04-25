@@ -31,7 +31,7 @@ const Game_Component = ({ id, peak, current}) => {
     return (
         <>
             <Box sx={{backgroundColor: '#232738', height: 50, maxWidth: 850, marginY: 1, '&:hover': { cursor: 'pointer'}}}>
-                <Link to={'/game/'+id+''}>
+                <Link to={'/game/'+id+'/'+peak+'/'+current+''}>
                     <Stack direction='row' >
                         <Grid container sx={{marginX: 2, marginY: 1}}>
                             <Grid item xs={7}>

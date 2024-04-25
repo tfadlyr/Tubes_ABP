@@ -10,7 +10,7 @@ function Example() {
             <Router>
                 <Routes>
                 <Route path="/" element={<Dashboard peakData={peakData}/>} />
-                <Route path="/game/:idGame" element={<Game/>} />
+                <Route path="/game/:idGame/:peekPlayer/:inGamePeek" element={<Game/>} />
                 </Routes>
             </Router>
         </>
