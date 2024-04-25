@@ -1,4 +1,4 @@
-import { CardContent, Popover } from "@mui/material";
+import { Box, Card, CardContent, Popover, Typography } from "@mui/material";
 import React from "react";
 
 export default function Login ({ open, onClose }){
@@ -23,7 +23,9 @@ export default function Login ({ open, onClose }){
             >
                 <Card>
                     <CardContent>
-                        
+                        <Box sx={{backgroundColor: "#5972CA"}}>
+                            <Typography>Login</Typography> 
+                        </Box>
                     </CardContent>
                 </Card>
             </Popover>
