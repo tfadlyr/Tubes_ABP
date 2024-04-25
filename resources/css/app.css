@@ -10,3 +10,44 @@
   --var1-gamepage: #091658;
   --var2-gamepage: #09154f;
 }
+
+.Card{
+  color: var(--main-text-color);
+  background-color: var(--headline-mostPlay);
+  padding: 10px;
+  border-radius: 6px 6px 0 0;
+  -webkit-border-radius: 6px 6px 0 0;
+  -moz-border-radius: 6px 6px 0 0;
+  -ms-border-radius: 6px 6px 0 0;
+  -o-border-radius: 6px 6px 0 0;
+}
+
+.stylesHeadline{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* *{
+  border: 1px solid salmon;
+} */
+
+.var1GamePage{
+  background-color: var(--var1-gamepage);
+  color: var(--main-text-color);
+  border: 0.5px solid #2f396f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px; 
+}
+
+.var2GamePage{
+  background-color: var(--var2-gamepage);
+  color: var(--main-text-color);
+  border: 0.5px solid #2f396f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px; 
+}
