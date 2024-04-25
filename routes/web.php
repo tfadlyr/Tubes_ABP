@@ -19,3 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('/', [dbController::class, 'showPeakGame']);
+
+Route::get('/game/{idGame}', [dbController::class, 'showPageGame']);
+Route::get('/gameStatistik', [dbController::class, 'getDataGame']);
