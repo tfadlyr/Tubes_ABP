@@ -2,19 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, TextField, Grid, Paper, Stack, colors, Divider } from '@mui/material'
 import '../../css/app.css';
 import { auto } from "@popperjs/core";
-import { Link, useParams } from "react-router-dom";
 
-const Game =() => {
+const Game =({dataStat}) => {
     /*API*/
     const [data, setProductData] = useState(null)
     const [loading, setLoading] = useState(true)
-    const idGame = useParams().idGame;
-    const peekPlayer = useParams().peekPlayer;
-    const inGamePeek = useParams().inGamePeek;
 
-    async function loadData(){
+    async function loadDataApi(){
         const request = await fetch(
-            "https://api.rawg.io/api/games/"+idGame+"?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa",
+            "https://api.rawg.io/api/games/"+dataStat.idGame+"?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa",
             {headers: {'Accept': 'application/json'}})
             .then(request => request.json())
             .then((data) => {
@@ -25,7 +21,7 @@ const Game =() => {
     }
 
     useEffect(() => {
-        loadData()
+        loadDataApi()
     }, [])
 
     if(loading){
@@ -38,9 +34,7 @@ const Game =() => {
                 <Paper elevation={3} sx={{backgroundColor: '#1A1D28', height: 90, paddingX: 3 }}>
                         <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
                             <Grid item xs={9.5}>
-                                <Link to={`/`}>
-                                    <Typography variant="h4" sx={{color: '#FFFFFF'}}>Sustraplay Library</Typography>
-                                </Link>
+                                {<a href="/"><Typography variant="h4" sx={{color: '#FFFFFF'}}>Sustraplay Library</Typography></a>}
                             </Grid>
                             <Grid item xs={2.5}>
                                 <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, width: 384}}/>
@@ -179,47 +173,43 @@ const Game =() => {
                                 <Typography>Year</Typography>
                                 <Typography>Month</Typography>
                             </Grid>
-                            <Grid sx={{display: 'flex', gap: 5}}>
-                                <Typography>2024</Typography>
-                                <Stack sx={{gap: 1, marginBottom: 2}}>
-                                    <Typography>April</Typography>
-                                    <Typography>March</Typography>
-                                    <Typography>February</Typography>
-                                    <Typography>January</Typography>
-                                </Stack>
-                            </Grid>
-                            <Grid sx={{display: 'flex', gap: 5}}>
-                                <Typography>2023</Typography>
-                                <Stack sx={{gap: 1, marginBottom: 2}}>
-                                    <Typography>December</Typography>
-                                    <Typography>November</Typography>
-                                    <Typography>October</Typography>
-                                    <Typography>September</Typography>
-                                    <Typography>August</Typography>
-                                    <Typography>July</Typography>
-                                    <Typography>June</Typography>
-                                    <Typography>May</Typography>
-                                    <Typography>April</Typography>
-                                    <Typography>March</Typography>
-                                    <Typography>February</Typography>
-                                    <Typography>January</Typography>
-                                </Stack>
-                            </Grid>
+                            {
+                                dataStat.yearsStat.map(
+                                    (stats, indexStat) => {
+                                        return (
+                                            <Grid sx={{display: 'flex', gap: 5}}>
+                                                <Typography key={indexStat}>{stats.year}</Typography>
+                                                <Stack sx={{gap: 1, marginBottom: 2}}>
+                                                    {
+                                                        stats.peaks.map(
+                                                            (peak, indexPeak) => {
+                                                                return <Typography key={indexPeak}>{peak.month}</Typography>
+                                                            }
+                                                        )
+                                                    }
+                                                </Stack>
+                                            </Grid>
+                                        )
+                                    }
+                                )
+                            }
                         </Grid>
                         <Grid sx={{display: 'flex', gap: 16}}>
-                            <Stack sx={{gap: 1}}>
+                            <Stack sx={{gap: 1.09}}>
                                 <Typography>Peak</Typography>
-                                <Typography>809,142</Typography>
-                                <Typography>701,954</Typography>
-                                <Typography>1,121,309</Typography>
-                                <Typography>991,911</Typography>
-                            </Stack>
-                            <Stack sx={{gap: 1}}>
-                                <Typography>Gain</Typography>
-                                <Typography>+[...]%</Typography>
-                                <Typography>=-[...]%</Typography>
-                                <Typography>+[...]%</Typography>
-                                <Typography>+/-[...]%</Typography>
+                                {
+                                    dataStat.yearsStat.map(
+                                        (stats) => {
+                                            return (
+                                                stats.peaks.map(
+                                                    (peak, indexPeak) => {
+                                                        return <Typography key={indexPeak}>{peak.peakPlayer}</Typography>
+                                                    }
+                                                )
+                                            )
+                                        }
+                                    )
+                                }
                             </Stack>
                         </Grid>
                     </Box>

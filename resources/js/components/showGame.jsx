@@ -2,22 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Game from './Game';
 
-function showGame() {
+function ShowGame() {
     return (
         <>
-            <Game/>
+            <Game dataStat={dataStat}/>
         </>
     );
 }
 
-export default showGame;
+export default ShowGame;
 
 if (document.getElementById('showGame')) {
     const Index = ReactDOM.createRoot(document.getElementById("showGame"));
 
     Index.render(
         <React.StrictMode>
-            <showGame/>
+            <ShowGame/>
         </React.StrictMode>
     )
 }

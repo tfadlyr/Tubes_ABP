@@ -18,5 +18,8 @@
     </head>
     <body >
          <div id="showGame"></div>
+         <script>
+            var dataStat = @json($dataStat);
+         </script>
     </body>
 </html>
