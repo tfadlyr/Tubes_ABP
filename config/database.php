@@ -45,12 +45,12 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('mysql://avnadmin:AVNS_hXDUb6M4FUMgJtQaYl7@sustratistik-tubes-abp-statistikgame.a.aivencloud.com:23557/defaultdb?ssl-mode=REQUIRED'),
+            'url' => env('mysql://avnadmin:*@sustratistik-tubes-abp-statistikgame.a.aivencloud.com:23557/defaultdb?ssl-mode=REQUIRED'),
             'host' => env('DB_HOST', 'sustratistik-tubes-abp-statistikgame.a.aivencloud.com'),
             'port' => env('DB_PORT', '23557'),
             'database' => env('DB_DATABASE', 'defaultdb'),
             'username' => env('DB_USERNAME', 'avnadmin'),
-            'password' => env('DB_PASSWORD', 'AVNS_hXDUb6M4FUMgJtQaYl7'),
+            'password' => env('DB_PASSWORD', '*'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
