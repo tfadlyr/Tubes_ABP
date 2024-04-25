@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, TextField, Grid, Paper, Stack, colors, Divider } from '@mui/material'
 import '../../css/app.css';
 import { auto } from "@popperjs/core";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Game =() => {
+    /*API*/
+    const [data, setProductData] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const idGame = useParams().idGame;
+
+    async function loadData(){
+        const request = await fetch(
+            "https://api.rawg.io/api/games/"+idGame+"?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa",
+            {headers: {'Accept': 'application/json'}})
+            .then(request => request.json())
+            .then((data) => {
+                setProductData(data)
+                setLoading(false)
+            })
+            .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+
+    if(loading){
+        return (<div>Loading...</div>)
+    }
+
     return (
         <>
             <Box sx={{backgroundColor: '#13151E', width: '100vw', height: 90 }}>
@@ -34,21 +59,21 @@ const Game =() => {
             </Box>
             <Box sx={{backgroundColor: 'var(--main-background-color)', maxHeight: auto, width: '100vw', padding: 10, g: 10 }}>
                 <Stack direction="column" justifyContent="flex-start" spacing={1}>
-                    <Typography sx={{color: "var(--main-text-color)", fontSize: 48, fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>Counter-Strike 2</Typography>
+                    <Typography sx={{color: "var(--main-text-color)", fontSize: 48, fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>{data.name}</Typography>
                 </Stack>
                 <Grid container sx={{display: 'flex', justifyContent:'space-between', paddingTop: 10}} spacing={10}>
                     <Grid item xs={2.5} sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                        <img src="https://via.placeholder.com/300x300" alt="Dummy Image"/>
+                        <img src={data.background_image} height={300} width={300}/>
                         <Grid sx={{color: 'var(--main-text-color)', textAlign: 'center', }}>
                             <Typography variant="h6">Users rating:</Typography>
-                            <Typography variant="h6">8,7 of 10</Typography>
+                            <Typography variant="h6">{data.rating} / {data.rating_top}</Typography>
                         </Grid>
                     </Grid>
                     <Grid item xs={4.5} sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                        <Grid sx={{color: 'var(--main-text-color)'}}>
+                        <Grid sx={{color: 'var(--main-text-color)', marginBottom: 5}}>
                             <Typography variant="h3">Game Description </Typography>
                             <Typography variant="h6" sx={{ overflow: 'auto', maxHeight: 250 }}>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dignissimos molestias laudantium saepe distinctio aliquam provident est delectus ullam repellendus. ipsum dolor sit, amet consectetur adipisicing elit. Quisquam quae inventore quas cupiditate dolor, velit aperiam nulla quo qui adipisci consequatur illo beatae tempore perferendis eum natus ratione veritatis deleniti ducimus reiciendis nihil nostrum modi? Possimus harum delectus sit totam minus sequi a. Veniam ea aperiam, fuga commodi quasi eum consequatur molestias natus nobis libero voluptas rem quibusdam sed reiciendis illum incidunt ipsa perspiciatis nisi voluptatibus! Facilis provident tempore totam?
+                                {data.description_raw}
                             </Typography>
 
                         </Grid>
@@ -68,35 +93,39 @@ const Game =() => {
                         <Stack sx={{color: 'var(--main-text-color)',border: '0.5px solid', borderColor: '#2f396f', justifyContent: 'space-between', padding: 0.5}}>
                             <Grid item className="var1GamePage">
                                 <Typography variant="h6">Developer</Typography>
-                                <Typography variant="h6">Valve Industries</Typography>
+                                <Grid className="dataTypography">
+                                    {data.developers.map(dev => <Typography variant="h6" key={dev.id}>{dev.name}</Typography>)}
+                                </Grid>
                             </Grid>
                             <Grid item className="var2GamePage">
                                 <Typography variant="h6">Publisher</Typography>
-                                <Typography variant="h6">Valve Industries</Typography>
+                                <Grid className="dataTypography">
+                                    {data.publishers.map(pub => <Typography variant="h6" key={pub.id}>{pub.name}</Typography>)}
+                                </Grid>
                             </Grid>
                             <Grid item className="var1GamePage">
                                 <Typography variant="h6">Supported Systems</Typography>
-                                <Typography variant="h6">Wingodswes</Typography>
-                            </Grid>
-                            <Grid item className="var2GamePage">
-                                <Typography variant="h6">Technologies / Game engine</Typography>
-                                <Typography variant="h6">Source 3.0</Typography>
-                            </Grid>
-                            <Grid item className="var1GamePage">
-                                <Typography variant="h6">Last update</Typography>
-                                <Typography variant="h6">teuing iraha</Typography>
+                                <Grid className="dataTypography">
+                                    {data.parent_platforms.map(plat => <Typography variant="h6" key={plat.platform.id}>{plat.platform.name}</Typography>)}
+                                </Grid>
                             </Grid>
                             <Grid item className="var2GamePage">
                                 <Typography variant="h6">Release date</Typography>
-                                <Typography variant="h6">teu apal</Typography>
+                                <Grid className="dataTypography">
+                                    <Typography variant="h6">{data.released}</Typography>
+                                </Grid>
                             </Grid>
                             <Grid item className="var1GamePage">
                                 <Typography variant="h6">Game Genre</Typography>
-                                <Typography variant="h6">teuing</Typography>
+                                <Grid className="dataTypography">
+                                    {data.genres.map(genre => <Typography variant="h6" key={genre.id}>{genre.name}</Typography>)}
+                                </Grid>
                             </Grid>
                             <Grid item className="var2GamePage">
                                 <Typography variant="h6">Age rating</Typography>
-                                <Typography variant="h6">22+</Typography>
+                                <Grid className="dataTypography">
+                                    <Typography variant="h6">{data.esrb_rating.name}</Typography>
+                                </Grid>
                             </Grid>
                         </Stack>
                     </Grid>

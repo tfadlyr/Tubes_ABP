@@ -9,8 +9,8 @@ function Example() {
         <>
             <Router>
                 <Routes>
-                <Route path="/" element={<Dashboard/>} />
-                <Route path="/game" element={<Game/>} />
+                <Route path="/" element={<Dashboard peakData={peakData}/>} />
+                <Route path="/game/:idGame" element={<Game/>} />
                 </Routes>
             </Router>
         </>

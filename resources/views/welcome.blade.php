@@ -17,6 +17,9 @@
         </style>
     </head>
     <body >
-         <div id='example'></div>                   
+         <div id='example'></div>
+         <script>
+            var peakData = @json($peakData);
+        </script>                     
     </body>
 </html>
