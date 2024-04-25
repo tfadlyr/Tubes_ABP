@@ -8,15 +8,6 @@ import Game from "./Game";
 
 
 const Dashboard = ({peakData}) => {
-    const [openLogin, setOpenLogin] = React.useState(false);
-
-    const handleLoginClick = () => {
-        setOpenLogin(!openLogin); // Toggle nilai openFilter
-      };
-    
-      const handleCloseLogin = () => {
-        setOpenLogin(false); // Tutup FilterPopover dengan mengatur openFilter ke false
-      };
 
     return (
         <>
@@ -35,12 +26,9 @@ const Dashboard = ({peakData}) => {
                     <Grid item xs= {12} sx={{padding: 2}}>
                         <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
                             <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
-                            <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer', textDecoration: 'underline' }}} onClick={handleLoginClick}> 
-                                Login
-                                <Login open={openLogin} onClose={handleCloseLogin} />    
-                            </Typography>
+                            <Login/>
                             <Typography sx={{color: "#FFFFFF"}}>or</Typography>
-                            <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer', textDecoration: 'underline' }}}>Sign up</Typography>
+                            <Sign_up/>
                         </Stack>
                     </Grid>
                     <Grid item xs={12}>
