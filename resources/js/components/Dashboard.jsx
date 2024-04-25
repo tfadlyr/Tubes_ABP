@@ -4,9 +4,10 @@ import Sign_up from "./Sign_up";
 import Login from "./Login";
 import Game_Component from "./Game_Component";
 import { useState } from "react";
+import Game from "./Game";
 
 
-const Dashboard = () => {
+const Dashboard = ({peakData}) => {
     const [openLogin, setOpenLogin] = React.useState(false);
 
     const handleLoginClick = () => {
@@ -66,7 +67,8 @@ const Dashboard = () => {
                                         </Grid>
                                     </Grid>
                                 </Box>
-                                <Game_Component pic="https://via.placeholder.com/93x44" name="CS" peak="100" current="20" />
+                                {/*List Game Most played*/}
+                                {peakData.map(data => <Game_Component key={data.id_game} id={data.id_game} peak={data.peak_player} current={data.in_game_peak}/>)}
                             </Box>
                         </Stack>
                     </Grid>
@@ -85,15 +87,13 @@ const Dashboard = () => {
                                     </Grid>
                                 </Grid>
                             </Box>
-                            <Game_Component pic="https://via.placeholder.com/93x44" name="CS" peak="100" current="20" />
-                            <Game_Component pic="https://via.placeholder.com/93x44" name="CS" peak="100" current="20" />
+                            {/*List Game New Released*/}
                         </Box>
                     </Grid>
                     <Grid item alignItems='center' justifyContent='center' xs={12}>
                         <Stack alignItems='center' justifyContent='center' flex={1}>
                             <Box sx={{backgroundColor: '#232738', height: 298, width: 950, borderRadius: 3}}>
                                 <Box sx={{backgroundColor: '#272E47', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
-                                    
                                     <Grid container>
                                         <Grid item xs={6}>
                                             <Typography sx={{color: "#FFFFFF", textAlign: 'center'}}>Games on Discount</Typography>
