@@ -8,15 +8,6 @@ import Game from "./Game";
 
 
 const Dashboard = ({peakData}) => {
-    const [openLogin, setOpenLogin] = React.useState(false);
-
-    const handleLoginClick = () => {
-        setOpenLogin(!openLogin); // Toggle nilai openFilter
-      };
-    
-      const handleCloseLogin = () => {
-        setOpenLogin(false); // Tutup FilterPopover dengan mengatur openFilter ke false
-      };
 
     return (
         <>
