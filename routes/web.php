@@ -18,7 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', [dbController::class, 'showPeakGame']);
-
-Route::get('/game/{idGame}', [dbController::class, 'showPageGame']);
-Route::get('/gameStatistik', [dbController::class, 'getDataGame']);
+// Route::get('/', [dbController::class, 'showPeakGame']);
+// Route::get('/game/{idGame}', [dbController::class, 'showPageGame']);
