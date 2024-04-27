@@ -21,7 +21,7 @@ export default function UpdateGameStatistic() {
 
   return (
     <>
-      <Button onClick={handleClick} variant="contained">Update or Delete</Button>
+      <Button onClick={handleClick} variant="contained" sx={{width: 150, height: 25, fontSize: 10}}>Update or Delete</Button>
       <div style={{
                 position: 'fixed',
                 top: 0,
