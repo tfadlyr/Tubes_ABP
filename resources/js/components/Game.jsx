@@ -11,7 +11,8 @@ import UpdatePeakPlayer from "./UpdatePeakPlayer";
 import UpdateGameStatistic from "./UpdateGameStatistic";
 import InsertGameStatistic from "./InsertGameStatistic";
 
-const Game =({dataStat}) => {
+
+const Game =({ dataStat }) => {
     const { auth } = usePage().props;
 
     /*API*/
