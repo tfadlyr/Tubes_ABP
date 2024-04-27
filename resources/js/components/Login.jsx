@@ -1,8 +1,14 @@
 import { Box, Button, Card, CardContent, Popover, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { Head, usePage } from '@inertiajs/inertia-react';
+import { Inertia } from '@inertiajs/inertia';
 
 export default function Login() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const { errors } = usePage().props;
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -11,6 +17,17 @@ export default function Login() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const postLogin = async(e) => {
+    e.preventDefault();
+    
+    Inertia.post(
+      '/login', 
+      {
+        password: password,
+        username: username,
+    });
+  } 
 
   const open = Boolean(anchorEl);
   const id = open ? 'login-popover' : undefined;
@@ -51,14 +68,27 @@ export default function Login() {
       >
         <Card>
                     <CardContent>
-                        <Box sx={{height: 550, width: 368, backgroundColor: "#5972CA", padding: 4, borderRadius: 4}}>
-                            <Stack justifyConstent='center' alignItems='center' spacing={2}>
-                                <Typography variant="h4" sx={{color: "#FFFFFF"}}>Login</Typography> 
-                                <Typography sx={{color: '#FFFFFF'}}>Welcome back, soldier.</Typography>
-                                <TextField label="Username"></TextField>
-                                <TextField label="Password" type="password" ></TextField>
-                                <Button variant="contained" onClick={handleClose} sx={{height: 34, width: 104, backgroundColor: '#D9D9D9', padding: 1}}>Login</Button>
-                            </Stack>
+                        <Box sx={{height: 550, width: 368, backgroundColor: "#5972CA", borderRadius: 4}}>
+                            <form onSubmit={postLogin}>
+                              <Stack justifyConstent='center' alignItems='center' spacing={2} paddingTop={6}>
+                                  <Typography variant="h4" sx={{color: "#FFFFFF"}}>Login</Typography> 
+                                  <Typography sx={{color: '#FFFFFF'}}>Welcome back, soldier.</Typography>
+
+                                  <TextField label="Username" onChange={(e) => setUsername(e.target.value)} size="small"></TextField>
+                                      {
+                                        errors.username && (
+                                          <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.username}</div>
+                                        )
+                                      }
+                                      <TextField label="Password" onChange={(e) => setPassword(e.target.value)} type="password" size="small"></TextField>
+                                      {
+                                        errors.password && (
+                                          <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.password}</div>
+                                        )
+                                      }
+                                  <Button type="submit" variant="contained" sx={{height: 34, width: 104, backgroundColor: '#D9D9D9', padding: 1}}>Login</Button>
+                              </Stack>
+                            </form>
                         </Box>
                     </CardContent>
                 </Card>

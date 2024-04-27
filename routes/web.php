@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\dbController;
+use App\Http\Controllers\authController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,7 @@ Route::get('/', function () {
 
 Route::get('/', [dbController::class, 'showPeakGame']);
 Route::get('/game/{idGame}', [dbController::class, 'showPageGame']);
+
+Route::post('/register', [authController::class, 'usersRegister']);
+Route::post('/login', [authController::class, 'usersLogin']);
+Route::get('/logout', [authController::class, 'usersLogout'])->middleware('auth');

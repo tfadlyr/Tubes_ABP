@@ -5,9 +5,11 @@ import Login from "./Login";
 import Game_Component from "./Game_Component";
 import { useState } from "react";
 import Game from "./Game";
+import { Head, InertiaLink, usePage } from '@inertiajs/inertia-react';
 
 
 const Dashboard = ({peakData}) => {
+    const { auth } = usePage().props;
 
     return (
         <>
@@ -25,10 +27,25 @@ const Dashboard = ({peakData}) => {
                 <Grid container>
                     <Grid item xs= {12} sx={{padding: 2}}>
                         <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
-                            <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
-                            <Login/>
-                            <Typography sx={{color: "#FFFFFF"}}>or</Typography>
-                            <Sign_up/>
+                            {
+                                auth.user != null ? 
+                                <div>
+                                    <Typography sx={{color: "#FFFFFF"}}>Welcome, {auth.user.name}</Typography>
+                                    <InertiaLink href="/logout">
+                                    <Typography sx={{color: "#FFFFFF", textAlign: 'right'}}>Logout</Typography>
+                                    </InertiaLink>
+                                </div> :
+                                <div>
+                                    <div>
+                                        <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
+                                    </div>
+                                    <div style={{display: 'flex', gap: '8px'}}>
+                                        <Login/>
+                                        <Typography sx={{color: "#FFFFFF"}}>or</Typography>
+                                        <Sign_up/>
+                                    </div>
+                                </div>
+                            }
                         </Stack>
                     </Grid>
                     <Grid item xs={12}>
