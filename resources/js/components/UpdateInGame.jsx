@@ -2,8 +2,9 @@ import { Box, Button, Card, CardContent, Popover, Stack, TextField, Typography }
 import React, { useState } from "react";
 import { Inertia } from '@inertiajs/inertia';
 
-export default function CardCekStat({idGame}) {
+export default function UpdateInGame({idGame}) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [inGame, setinGame] = useState('');
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -13,21 +14,22 @@ export default function CardCekStat({idGame}) {
     setAnchorEl(null);
   };
 
-  const postCreate = async(e) => {
+  const postUpdate = async(e) => {
     e.preventDefault();
     
-    Inertia.get('/createStatistik/'+idGame+'');
+    Inertia.get('/updateInGame/'+idGame+'/'+inGame);
   } 
 
-  const open = true;
+  const open = Boolean(anchorEl);
   const id = open ? 'login-popover' : undefined;
 
     // Calculate the center position of the screen
-    const centerTop = (window.innerHeight - 600) / 2; // Subtracting the height of the popover
+    const centerTop = (window.innerHeight - 400) / 2; // Subtracting the height of the popover
     const centerLeft = (window.innerWidth - 440) / 2; // Subtracting the width of the popover
 
   return (
     <>
+      <Button onClick={handleClick} variant="contained">Update</Button>
       <div style={{
                 position: 'fixed',
                 top: 0,
@@ -50,22 +52,22 @@ export default function CardCekStat({idGame}) {
           sx: {
             backgroundColor: 'rgba(255, 255, 255, 0.5)', // 50% opacity white
             borderRadius: 8,
-            height: 300,
-            width: 450
+            height: 340,
+            width: 401
           },
         }}
       >
         <Card>
-                    <CardContent>
-                        <Box sx={{height: 260, width: 418, backgroundColor: "#5972CA", borderRadius: 4}}>
-                              <Stack justifyContent='center' alignItems='center' spacing={2} paddingTop={6}>
-                                  <Typography variant="h5" sx={{color: "#FFFFFF"}}>Tambahkan Statistik untuk Game ini?</Typography> 
-                                  <Button onClick={postCreate} variant="contained" sx={{height: 34, width: 104, backgroundColor: '#D9D9D9', padding: 1}}>Iya</Button>
-                                  <Button onClick={handleClose} variant="contained" sx={{height: 34, width: 104, backgroundColor: '#D9D9D9', padding: 1}}>Tidak</Button>
-                              </Stack>
-                        </Box>
-                    </CardContent>
-                </Card>
+          <CardContent>
+              <Box sx={{height: 300, width: 368, backgroundColor: "#5972CA", padding: 4, borderRadius: 4}}>
+                  <Stack justifyContent='center' alignItems='center' spacing={2}>
+                      <Typography variant="h5" sx={{color: "#FFFFFF"}}>Update In Game</Typography> 
+                      <TextField label="In-game" onChange={(e) => setinGame(e.target.value)}></TextField>
+                      <Button variant="contained" onClick={postUpdate} sx={{height: 34, width: 104, backgroundColor: '#D9D9D9', padding: 1}}>Update</Button>
+                  </Stack>
+              </Box>
+          </CardContent>
+        </Card>
       </Popover>
     </>
   );
