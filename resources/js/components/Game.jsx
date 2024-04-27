@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, TextField, Grid, Paper, Stack, colors, Divider } from '@mui/material'
 import '../../css/app.css';
+import { Head, InertiaLink, usePage } from '@inertiajs/inertia-react';
+import Sign_up from "./Sign_up";
+import Login from "./Login";
 import { auto } from "@popperjs/core";
 
 const Game =({dataStat}) => {
+    const { auth } = usePage().props;
     /*API*/
     const [data, setProductData] = useState(null)
+    const [dataDB, setDataDB] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [loadingDB, setLoadingDB] = useState(true)
 
     async function loadDataApi(){
         const request = await fetch(
@@ -20,17 +26,33 @@ const Game =({dataStat}) => {
             .catch(err => console.log(err))
     }
 
+    async function loadDataDB(){
+        const request = await fetch(
+            "/gamePeak/"+dataStat.idGame+"",
+            {headers: {'Accept': 'application/json'}})
+            .then(request => request.json())
+            .then((data) => {
+                setDataDB(data)
+                setLoadingDB(false)
+            })
+            .catch(err => console.log(err))
+    }
+
     useEffect(() => {
         loadDataApi()
     }, [])
 
-    if(loading){
+    useEffect(() => {
+        loadDataDB()
+    }, [])
+
+    if(loading || loadingDB){
         return (<div>Loading...</div>)
     }
 
     return (
         <>
-            <Box sx={{backgroundColor: '#13151E', width: '100vw', height: 90 }}>
+            <Box sx={{backgroundColor: '#13151E', width: auto, height: 90 }}>
                 <Paper elevation={3} sx={{backgroundColor: '#1A1D28', height: 90, paddingX: 3 }}>
                         <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
                             <Grid item xs={9.5}>
@@ -44,16 +66,31 @@ const Game =({dataStat}) => {
                     <Grid container>
                         <Grid item xs= {12} sx={{padding: 2}}>
                             <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
-                                <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
-                                <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer', textDecoration: 'underline' }}}>Login</Typography>
-                                <Typography sx={{color: "#FFFFFF"}}>or</Typography>
-                                <Typography sx={{color: "#FFFFFF", fontWeight: 'bold', '&:hover': { cursor: 'pointer', textDecoration: 'underline' }}}>Sign up</Typography>
+                            {
+                                auth.user != null ? 
+                                <div>
+                                    <Typography sx={{color: "#FFFFFF"}}>Welcome, {auth.user.name}</Typography>
+                                    <InertiaLink href="/logout">
+                                    <Typography sx={{color: "#FFFFFF", textAlign: 'right'}}>Logout</Typography>
+                                    </InertiaLink>
+                                </div> :
+                                <div>
+                                    <div>
+                                        <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
+                                    </div>
+                                    <div style={{display: 'flex', gap: '8px'}}>
+                                        <Login/>
+                                        <Typography sx={{color: "#FFFFFF"}}>or</Typography>
+                                        <Sign_up/>
+                                    </div>
+                                </div>
+                            }
                             </Stack>
                         </Grid>
                     </Grid>
 
             </Box>
-            <Box sx={{backgroundColor: 'var(--main-background-color)', maxHeight: auto, width: '100vw', padding: 10, g: 10 }}>
+            <Box sx={{backgroundColor: 'var(--main-background-color)', maxHeight: auto, width: auto, padding: 10, g: 10 }}>
                 <Stack direction="column" justifyContent="flex-start" spacing={1}>
                     <Typography sx={{color: "var(--main-text-color)", fontSize: 48, fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>{data.name}</Typography>
                 </Stack>
@@ -76,12 +113,16 @@ const Game =({dataStat}) => {
                         <Grid sx={{color: 'var(--main-text-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10}}>
                             <Grid sx={{textAlign: 'center'}}>
                                 <Typography variant="h6">In-game</Typography>
-                                <Typography variant="h6">809,142</Typography>
+                                <Typography variant="h6">
+                                {dataDB.response == 200 ? dataDB.dataPeak[0].in_game_peak : 0}
+                                </Typography>
                             </Grid>
                             <Typography sx={{fontSize: 32}}>|</Typography>
                             <Grid sx={{textAlign: 'center'}}>
                                 <Typography variant="h6">Peak players</Typography>
-                                <Typography variant="h6">1,121,309</Typography>
+                                <Typography variant="h6">
+                                    {dataDB.response == 200 ? dataDB.dataPeak[0].peak_player : 0}
+                                </Typography>
                             </Grid>
                         </Grid>
                     </Grid>

@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class dbController extends Controller
 {
-    public function showPeakGame(){
-        $peakData = DB::select('SELECT * FROM tbl_peak ORDER BY peak_player DESC');
+    public function showPeakGame($idGame){
+        $peakData = DB::select('SELECT * FROM tbl_peak WHERE id_game='.$idGame);
 
         if(count($peakData) != 0){
-            return Inertia::render('Dashboard', ["peakData" => $peakData]);
+            return response()->json(['response' => 200, 'dataPeak' => $peakData]);
         }else{
-            return -1;
+            return response()->json(['response' => 404]);
         }
     }
 

@@ -75,7 +75,7 @@ export default function Sign_up() {
                       <CardContent>
                           <Box sx={{height: 550, width: 368, backgroundColor: "#5972CA", borderRadius: 4}}>
                               <form onSubmit={postRegister}>
-                                <Stack justifyConstent='center' alignItems='center' spacing={2} paddingTop={3}>
+                                <Stack justifyContent='center' alignItems='center' spacing={2} paddingTop={3}>
                                     <Typography variant="h4" sx={{color: "#FFFFFF"}}>Sign up</Typography> 
                                     <Typography sx={{color: '#FFFFFF'}}>Let's get along, friend!</Typography>
 

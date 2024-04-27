@@ -70,7 +70,7 @@ export default function Login() {
                     <CardContent>
                         <Box sx={{height: 550, width: 368, backgroundColor: "#5972CA", borderRadius: 4}}>
                             <form onSubmit={postLogin}>
-                              <Stack justifyConstent='center' alignItems='center' spacing={2} paddingTop={6}>
+                              <Stack justifyContent='center' alignItems='center' spacing={2} paddingTop={6}>
                                   <Typography variant="h4" sx={{color: "#FFFFFF"}}>Login</Typography> 
                                   <Typography sx={{color: '#FFFFFF'}}>Welcome back, soldier.</Typography>
 

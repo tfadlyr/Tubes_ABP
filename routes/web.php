@@ -21,7 +21,7 @@ Route::get('/', function () {
     return Inertia::render('Dashboard');
 });
 
-Route::get('/', [dbController::class, 'showPeakGame']);
+Route::get('/gamePeak/{idGame}', [dbController::class, 'showPeakGame']);
 Route::get('/game/{idGame}', [dbController::class, 'showPageGame']);
 
 Route::post('/register', [authController::class, 'usersRegister']);
