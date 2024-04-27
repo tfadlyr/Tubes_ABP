@@ -1,9 +1,17 @@
 import { Box, Button, Card, CardContent, Popover, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { Head, usePage } from '@inertiajs/inertia-react';
+import { Inertia } from '@inertiajs/inertia';
 
 export default function Sign_up() {
     const [anchorEl, setAnchorEl] = useState(null);
-  
+    const { errors } = usePage().props;
+
+    const [name, setName]   = useState('');
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -11,7 +19,21 @@ export default function Sign_up() {
     const handleClose = () => {
       setAnchorEl(null);
     };
-  
+
+    const postRegister = async(e) => {
+      e.preventDefault();
+      
+      Inertia.post(
+        '/register', 
+        {
+          name: name,
+          email: email,
+          password: password,
+          username: username,
+          role: "user"
+      });
+    } 
+
     const open = Boolean(anchorEl);
     const id = open ? 'login-popover' : undefined;
   
@@ -51,15 +73,39 @@ export default function Sign_up() {
         >
           <Card>
                       <CardContent>
-                          <Box sx={{height: 550, width: 368, backgroundColor: "#5972CA", padding: 4, borderRadius: 4}}>
-                              <Stack justifyConstent='center' alignItems='center' spacing={2}>
-                                  <Typography variant="h4" sx={{color: "#FFFFFF"}}>Sign up</Typography> 
-                                  <Typography sx={{color: '#FFFFFF'}}>Let's get along, friend!</Typography>
-                                  <TextField label="Username"></TextField>
-                                  <TextField label="Password" type="password" ></TextField>
-                                  <TextField label="Email"></TextField>
-                                  <Button variant="contained" onClick={handleClose} sx={{height: 34, width: 104, backgroundColor: '#D9D9D9', padding: 1}}>Sign up</Button>
-                              </Stack>
+                          <Box sx={{height: 550, width: 368, backgroundColor: "#5972CA", borderRadius: 4}}>
+                              <form onSubmit={postRegister}>
+                                <Stack justifyContent='center' alignItems='center' spacing={2} paddingTop={3}>
+                                    <Typography variant="h4" sx={{color: "#FFFFFF"}}>Sign up</Typography> 
+                                    <Typography sx={{color: '#FFFFFF'}}>Let's get along, friend!</Typography>
+
+                                    <TextField label="Name" onChange={(e) => setName(e.target.value)} size="small"></TextField>
+                                    {
+                                      errors.name && (
+                                        <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.name}</div>
+                                      )
+                                    }
+                                    <TextField label="Email" onChange={(e) => setEmail(e.target.value)} size="small"></TextField>
+                                    {
+                                      errors.email && (
+                                        <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.email}</div>
+                                      )
+                                    }
+                                    <TextField label="Username" onChange={(e) => setUsername(e.target.value)} size="small"></TextField>
+                                    {
+                                      errors.username && (
+                                        <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.username}</div>
+                                      )
+                                    }
+                                    <TextField label="Password" onChange={(e) => setPassword(e.target.value)} type="password" size="small"></TextField>
+                                    {
+                                      errors.password && (
+                                        <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.password}</div>
+                                      )
+                                    }
+                                    <Button type="submit" variant="contained" sx={{height: 34, width: 104, backgroundColor: '#D9D9D9', padding: 1}}>Sign up</Button>
+                                </Stack>
+                              </form>
                           </Box>
                       </CardContent>
                   </Card>

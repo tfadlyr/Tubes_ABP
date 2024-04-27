@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
 use App\Http\Controllers\dbController;
+use App\Http\Controllers\authController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +18,15 @@ use App\Http\Controllers\dbController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Dashboard');
 });
 
-Route::get('/', [dbController::class, 'showPeakGame']);
-
+Route::get('/gamePeak/{idGame}', [dbController::class, 'showPeakGame']);
 Route::get('/game/{idGame}', [dbController::class, 'showPageGame']);
-Route::get('/gameStatistik', [dbController::class, 'getDataGame']);
+Route::get('/cekStatistik/{idGame}', [dbController::class, 'cekGameStatistik']);
+Route::get('/logout', [authController::class, 'usersLogout'])->middleware('auth');
+
+Route::post('/register', [authController::class, 'usersRegister']);
+Route::post('/login', [authController::class, 'usersLogin']);
+
+Route::get('/createStatistik/{idGame}', [dbController::class, 'createGameStatistik']);
