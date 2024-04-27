@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
+import { InertiaLink } from "@inertiajs/inertia-react";
 
 const Game_Component = ({ id, peak, current}) => {
     /*API*/
@@ -33,7 +34,7 @@ const Game_Component = ({ id, peak, current}) => {
         <>
             <Box sx={{backgroundColor: '#232738', height: 50, maxWidth: 850, marginY: 1, '&:hover': { cursor: 'pointer'}}}>
                 {
-                    <a href={directTo}>
+                    <InertiaLink href={directTo}>
                         <Stack direction='row' >
                             <Grid container sx={{marginX: 2, marginY: 1}}>
                                 <Grid item xs={7}>
@@ -50,7 +51,7 @@ const Game_Component = ({ id, peak, current}) => {
                                 </Grid>
                             </Grid>
                         </Stack>
-                    </a>
+                    </InertiaLink>
                 }
             </Box>
         </>
