@@ -23,7 +23,10 @@ Route::get('/', function () {
 
 Route::get('/gamePeak/{idGame}', [dbController::class, 'showPeakGame']);
 Route::get('/game/{idGame}', [dbController::class, 'showPageGame']);
+Route::get('/cekStatistik/{idGame}', [dbController::class, 'cekGameStatistik']);
+Route::get('/logout', [authController::class, 'usersLogout'])->middleware('auth');
 
 Route::post('/register', [authController::class, 'usersRegister']);
 Route::post('/login', [authController::class, 'usersLogin']);
-Route::get('/logout', [authController::class, 'usersLogout'])->middleware('auth');
+
+Route::get('/createStatistik/{idGame}', [dbController::class, 'createGameStatistik']);
