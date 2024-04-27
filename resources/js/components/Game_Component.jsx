@@ -2,11 +2,11 @@ import React from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const Game_Component = ({ pic, name, peak, current}) => {
+const Game_Component = ({ darkMode, pic, name, peak, current}) => {
 
     return (
         <>
-            <Box sx={{backgroundColor: '#232738', height: 50, maxWidth: 850, marginY: 1, '&:hover': { cursor: 'pointer'}}}>
+            <Box sx={{backgroundColor: darkMode ? '#232738' : '#38623B', height: 50, maxWidth: 850, marginY: 1, '&:hover': { cursor: 'pointer'}}} >
                 <Link to={`/game/`}>
                     <Stack direction='row' >
                         <Grid container sx={{marginX: 2, marginY: 1}}>

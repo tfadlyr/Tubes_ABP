@@ -4,10 +4,10 @@ import '../../css/app.css';
 import { auto } from "@popperjs/core";
 import { Link } from "react-router-dom";
 
-const Game =() => {
+const Game =({ darkMode }) => {
     return (
         <>
-            <Box sx={{backgroundColor: '#13151E', width: '100vw', height: 90 }}>
+            <Box sx={{backgroundColor: '#13151E', width: auto, height: 90 }}>
                 <Paper elevation={3} sx={{backgroundColor: '#1A1D28', height: 90, paddingX: 3 }}>
                         <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
                             <Grid item xs={9.5}>
@@ -32,7 +32,7 @@ const Game =() => {
                     </Grid>
 
             </Box>
-            <Box sx={{backgroundColor: 'var(--main-background-color)', maxHeight: auto, width: '100vw', padding: 10, g: 10 }}>
+            <Box sx={{backgroundColor: 'var(--main-background-color)', maxHeight: auto, width: auto, padding: 10, g: 10 }}>
                 <Stack direction="column" justifyContent="flex-start" spacing={1}>
                     <Typography sx={{color: "var(--main-text-color)", fontSize: 48, fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>Counter-Strike 2</Typography>
                 </Stack>
