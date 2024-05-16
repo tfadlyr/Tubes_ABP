@@ -12,7 +12,7 @@ const Game =({ darkMode }) => {
                         <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
                             <Grid item xs={9.5}>
                                 <Link to={`/`}>
-                                    <Typography variant="h4" sx={{color: '#FFFFFF'}}>Sustraplay Library</Typography>
+                                    <Typography variant="h4" sx={{color: '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
                                 </Link>
                             </Grid>
                             <Grid item xs={2.5}>

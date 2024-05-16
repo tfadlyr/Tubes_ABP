@@ -24,7 +24,7 @@ const Dashboard = () => {
                 <Paper elevation={3} sx={{backgroundColor: darkMode ? '#1A1D28' : '#C37F25', height: 90, paddingX: 3 }}>
                     <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
                         <Grid item xs={9.5}>
-                            <Typography variant="h4" sx={{color:  '#FFFFFF'}}>Sustraplay Library</Typography>
+                            <Typography variant="h4" sx={{color:  '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
                         </Grid>
                         <Grid item xs={2.5}>
                             <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, width: 384}}/>
@@ -50,8 +50,8 @@ const Dashboard = () => {
                 <Grid container spacing={2} sx={{padding: 5, paddingX: 10}}>
                     <Grid item xs={6}>
                         <Stack flex={1}>
-                            <Box sx={{backgroundColor: darkMode ? '#232738' : '#38623B', height: 298, maxWidth: 850, marginLeft: 8, borderRadius: 3}}>
-                                <Box sx={{backgroundColor: darkMode ? '#272E47' : '#3D6C41', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
+                            <Box sx={{backgroundColor: darkMode ? '#232738' : '#B9602E', height: 298, maxWidth: 850, marginLeft: 8, borderRadius: 3}}>
+                                <Box sx={{backgroundColor: darkMode ? '#272E47' : '#D67138', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
                                     <Grid container>
                                         <Grid item xs={7}>
                                             <Typography sx={{color: "#FFFFFF", textAlign: 'center'}}>Most Played Amongst Gamers</Typography>
@@ -69,8 +69,8 @@ const Dashboard = () => {
                         </Stack>
                     </Grid>
                     <Grid item xs={6}>
-                        <Box sx={{backgroundColor: darkMode ? '#232738' : '#38623B', height: 298, maxWidth: 850, marginRight: 8, borderRadius: 3}}>
-                            <Box sx={{backgroundColor: darkMode ? '#272E47' : '#3D6C41', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
+                        <Box sx={{backgroundColor: darkMode ? '#232738' : '#B9602E', height: 298, maxWidth: 850, marginRight: 8, borderRadius: 3}}>
+                            <Box sx={{backgroundColor: darkMode ? '#272E47' : '#D67138', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
                                 <Grid container>
                                     <Grid item xs={7}>
                                         <Typography sx={{color: "#FFFFFF", textAlign: 'center'}}>New Released Games</Typography>
