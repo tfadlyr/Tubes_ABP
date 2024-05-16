@@ -19,8 +19,8 @@ function Example() {
             </Router> */}
             {/* <Loading/> */}
             {/* <Favorites/> */}
-            <SignUp_page/>
-            {/* <Login_page/> */}
+            {/* <SignUp_page/> */}
+            <Login_page/>
         </>
     );
 }
