@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, TextField, Grid, Paper, Stack, colors, Divider } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Typography, TextField, Grid, Paper, Stack, colors, Divider, Button } from '@mui/material'
 import '../../css/app.css';
 import { Head, InertiaLink, usePage } from '@inertiajs/inertia-react';
-import Sign_up from "./Sign_up";
-import Login from "./Login";
 import { auto } from "@popperjs/core";
 
-const Game =({dataStat}) => {
+import Sign_up from "./Sign_up";
+import Login from "./Login";
+import UpdateInGame from "./UpdateInGame";
+import UpdatePeakPlayer from "./UpdatePeakPlayer";
+import UpdateGameStatistic from "./UpdateGameStatistic";
+import InsertGameStatistic from "./InsertGameStatistic";
+
+
+const Game =({ dataStat }) => {
     const { auth } = usePage().props;
+
     /*API*/
     const [data, setProductData] = useState(null)
     const [dataDB, setDataDB] = useState(null)
@@ -110,12 +117,13 @@ const Game =({dataStat}) => {
                             </Typography>
 
                         </Grid>
-                        <Grid sx={{color: 'var(--main-text-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10}}>
+                        <Grid sx={{color: 'var(--main-text-color)', display: 'flex', justifyContent: 'center', gap: 10, }}>
                             <Grid sx={{textAlign: 'center'}}>
                                 <Typography variant="h6">In-game</Typography>
                                 <Typography variant="h6">
                                 {dataDB.response == 200 ? dataDB.dataPeak[0].in_game_peak : 0}
                                 </Typography>
+                                {auth.user.role == 'admin' && <UpdateInGame idGame={dataStat.idGame}/>}
                             </Grid>
                             <Typography sx={{fontSize: 32}}>|</Typography>
                             <Grid sx={{textAlign: 'center'}}>
@@ -123,6 +131,7 @@ const Game =({dataStat}) => {
                                 <Typography variant="h6">
                                     {dataDB.response == 200 ? dataDB.dataPeak[0].peak_player : 0}
                                 </Typography>
+                                {auth.user.role == 'admin' && <UpdatePeakPlayer idGame={dataStat.idGame}/>}
                             </Grid>
                         </Grid>
                     </Grid>
@@ -198,60 +207,99 @@ const Game =({dataStat}) => {
                 <Grid sx={{paddingTop: 10}}>
                     <Box sx={{border: '1px solid white', borderRadius: 10, paddingX: 5, display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
                         <Typography sx={{fontSize: 32, color: 'var(--main-text-color)'}}>Game Statistic</Typography>
-                        <Stack direction='row' sx={{gap: 1}}>
-                            <Typography sx={{color: 'var(--main-text-color)'}}>Year</Typography>
-                            <Typography sx={{color: 'var(--main-text-color)'}}>|</Typography>
-                            <Typography sx={{color: 'var(--main-text-color)'}}>Month</Typography>
-                            <Typography sx={{color: 'var(--main-text-color)'}}>|</Typography>
-                            <Typography sx={{color: 'var(--main-text-color)'}}>Peak</Typography>
-                            <Typography sx={{color: 'var(--main-text-color)'}}>|</Typography>
-                            <Typography sx={{color: 'var(--main-text-color)'}}>Gain</Typography>
-                        </Stack>
+                        <Grid sx={{display: 'flex',  alignItems: 'center', gap: 5}}>
+                            <Stack direction='row' sx={{gap: 1}}>
+                                <Typography sx={{color: 'var(--main-text-color)'}}>Year</Typography>
+                                <Typography sx={{color: 'var(--main-text-color)'}}>|</Typography>
+                                <Typography sx={{color: 'var(--main-text-color)'}}>Month</Typography>
+                                <Typography sx={{color: 'var(--main-text-color)'}}>|</Typography>
+                                <Typography sx={{color: 'var(--main-text-color)'}}>Peak</Typography>
+                                <Typography sx={{color: 'var(--main-text-color)'}}>|</Typography>
+                                <Typography sx={{color: 'var(--main-text-color)'}}>Gain</Typography>
+                            </Stack>
+                            {auth.user.role == 'admin' && <InsertGameStatistic idGame={dataStat.idGame} peakPlayer={dataStat.yearsStat[0].peaks[0].peakPlayer}/>}
+                        </Grid>
                     </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'space-around', color: 'var(--main-text-color)', marginTop: 4}}>
-                        <Grid>
-                            <Grid sx={{display: 'flex', gap: 5.5, marginBottom: 2}}>
-                                <Typography>Year</Typography>
-                                <Typography>Month</Typography>
-                            </Grid>
-                            {
-                                dataStat.yearsStat.map(
-                                    (stats, indexStat) => {
-                                        return (
-                                            <Grid sx={{display: 'flex', gap: 5}}>
-                                                <Typography key={indexStat}>{stats.year}</Typography>
-                                                <Stack sx={{gap: 1, marginBottom: 2}}>
-                                                    {
-                                                        stats.peaks.map(
-                                                            (peak, indexPeak) => {
-                                                                return <Typography key={indexPeak}>{peak.month}</Typography>
-                                                            }
+                    <Box sx={{display: 'flex', alignContent: 'center', marginTop: 4}}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TableContainer>
+                                    <Table sx={{backgroundColor: 'var(--main-background-color)'}}>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell sx={{color: 'var(--main-text-color)'}}>Year</TableCell>
+                                                <TableCell sx={{color: 'var(--main-text-color)'}}>Month</TableCell>
+                                                <TableCell sx={{color: 'var(--main-text-color)'}}>Peak</TableCell>
+                                                <TableCell sx={{color: 'var(--main-text-color)'}}>Gain</TableCell>
+                                                {auth.user.role == 'admin' && <TableCell sx={{color: 'var(--main-text-color)'}}>Update or Delete</TableCell>}
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {
+                                                dataStat.yearsStat.map(
+                                                    (stats, indexStat) => {
+                                                        return (
+                                                            <TableRow>
+                                                                <TableCell sx={{color: 'var(--main-text-color)'}} key={indexStat}>{stats.year}</TableCell>
+                                                                <TableCell>
+                                                                    <Stack spacing={1}>
+                                                                        {
+                                                                            stats.peaks.map(
+                                                                                (peak, indexPeak) => {
+                                                                                    return <Typography sx={{color: 'var(--main-text-color)'}} key={indexPeak}>{peak.month}</Typography>
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    </Stack>
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    <Stack spacing={1}>
+                                                                        {
+                                                                            stats.peaks.map(
+                                                                                (peak, indexPeak) => {
+                                                                                    return <Typography sx={{color: 'var(--main-text-color)'}} key={indexPeak}>{peak.peakPlayer}</Typography>
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    </Stack>
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    <Stack spacing={1}>
+                                                                        {
+                                                                            stats.peaks.map(
+                                                                                (peak, indexPeak) => {
+                                                                                    return <Typography sx={{color: 'var(--main-text-color)'}} key={indexPeak}>{peak.gainPlayer}</Typography>
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    </Stack>
+                                                                </TableCell>
+                                                                {auth.user.role == 'admin' && (
+                                                                    <TableCell>
+                                                                        <Stack spacing={1}>
+                                                                            {
+                                                                                stats.peaks.map(
+                                                                                    (peak, indexPeak) => {
+                                                                                        return <UpdateGameStatistic 
+                                                                                        key={indexPeak} 
+                                                                                        idGame={dataStat.idGame} 
+                                                                                        idPeak={peak.idPeak}
+                                                                                        />
+                                                                                    }
+                                                                                )
+                                                                            }
+                                                                        </Stack>
+                                                                    </TableCell>
+                                                                )}
+                                                            </TableRow>
                                                         )
                                                     }
-                                                </Stack>
-                                            </Grid>
-                                        )
-                                    }
-                                )
-                            }
-                        </Grid>
-                        <Grid sx={{display: 'flex', gap: 16}}>
-                            <Stack sx={{gap: 1.09}}>
-                                <Typography>Peak</Typography>
-                                {
-                                    dataStat.yearsStat.map(
-                                        (stats) => {
-                                            return (
-                                                stats.peaks.map(
-                                                    (peak, indexPeak) => {
-                                                        return <Typography key={indexPeak}>{peak.peakPlayer}</Typography>
-                                                    }
                                                 )
-                                            )
-                                        }
-                                    )
-                                }
-                            </Stack>
+                                            }
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Grid>

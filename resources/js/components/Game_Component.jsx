@@ -4,7 +4,7 @@ import { InertiaLink } from "@inertiajs/inertia-react";
 import CardCekStat from "./CardCekStat";
 
 
-const Game_Component = ({ id }) => {
+const Game_Component = ({ darkMode, id }) => {
     /*API*/
     const [dataApi, setDataApi] = useState(null)
     const [dataDB, setDataDB] = useState(null)
@@ -76,7 +76,7 @@ const Game_Component = ({ id }) => {
 
     return (
         <>
-            <Box sx={{backgroundColor: '#232738', height: 50, maxWidth: 850, marginY: 1, '&:hover': { cursor: 'pointer'}}}>
+            <Box sx={{backgroundColor: darkMode ? '#232738' : '#38623B', height: 50, maxWidth: 850, marginY: 1, '&:hover': { cursor: 'pointer'}}}>
                 {
                     cekStat.response == 200 ? 
                     <InertiaLink href={directTo}>
