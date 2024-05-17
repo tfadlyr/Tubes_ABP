@@ -4,15 +4,38 @@ import { useState } from "react";
 import { auto } from "@popperjs/core";
 import LightMode from "../../../public/Light_Mode.png";
 import DarkMode from "../../../public/Dark_Mode.png";
+import { Head, usePage } from '@inertiajs/inertia-react';
+import { Inertia } from '@inertiajs/inertia';
 
 const SignUp_page = () => {
     const [darkMode, setDarkMode] = useState(true);
     const [imageSource, setImageSource] = useState(DarkMode);
-  
+    
+    const { errors } = usePage().props;
+
+    const [name, setName]   = useState('');
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
     const toggleDarkMode = () => {
       setDarkMode(!darkMode);
       setImageSource(darkMode ? LightMode : DarkMode);
     };
+
+    const postRegister = async(e) => {
+        e.preventDefault();
+        
+        Inertia.post(
+          '/register', 
+          {
+            name: name,
+            email: email,
+            password: password,
+            username: username,
+            role: "user"
+        });
+    } 
     
     return (
         <>
@@ -42,14 +65,37 @@ const SignUp_page = () => {
                     <Grid item xs={5} sx={{marginY: 20}}>
                         <Box sx={{height: 610, width: 430, backgroundColor: "#FFFFFF", padding: 4, borderRadius: 4}}>
                             <Box sx={{height: 550, width: 368, backgroundColor: "#5972CA", padding: 4, borderRadius: 4}}>
-                                <Stack justifyConstent='center' alignItems='center' spacing={2}>
-                                    <Typography variant="h4" sx={{color: "#FFFFFF"}}>Sign up</Typography> 
-                                    <Typography sx={{color: '#FFFFFF'}}>Let's get along, friend!</Typography>
-                                    <TextField label="Username"></TextField>
-                                    <TextField label="Password" type="password" ></TextField>
-                                    <TextField label="Email"></TextField>
-                                    <Button variant="contained"  sx={{height: 34, width: 104, backgroundColor: '#D9D9D9', padding: 1}}>Sign up</Button>
-                                </Stack>
+                                <form onSubmit={postRegister}>
+                                    <Stack justifyConstent='center' alignItems='center' spacing={2}>
+                                        <Typography variant="h4" sx={{color: "#FFFFFF"}}>Sign up</Typography> 
+                                        <Typography sx={{color: '#FFFFFF'}}>Let's get along, friend!</Typography>
+                                        <TextField label="Name" onChange={(e) => setName(e.target.value)} size="small"></TextField>
+                                        {
+                                            errors.name && (
+                                                <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.name}</div>
+                                            )
+                                        }
+                                        <TextField label="Email" onChange={(e) => setEmail(e.target.value)} size="small"></TextField>
+                                        {
+                                            errors.email && (
+                                                <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.email}</div>
+                                            )
+                                        }
+                                        <TextField label="Username" onChange={(e) => setUsername(e.target.value)} size="small"></TextField>
+                                        {
+                                            errors.username && (
+                                                <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.username}</div>
+                                            )
+                                        }
+                                        <TextField label="Password" onChange={(e) => setPassword(e.target.value)} type="password" size="small"></TextField>
+                                        {
+                                            errors.password && (
+                                                <div className="alert alert-danger" style={{color: '#A30004'}}>{errors.password}</div>
+                                            )
+                                        }
+                                        <Button type="submit" variant="contained"  sx={{height: 34, width: 104, backgroundColor: '#D9D9D9', padding: 1}}>Sign up</Button>
+                                    </Stack>
+                                </form>
                             </Box>
                         </Box>
                     </Grid>

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Stack, Typography, Popover } from "@mui/material";
-import { InertiaLink } from "@inertiajs/inertia-react";
+import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 import CardCekStat from "./CardCekStat";
 
 
 const Game_Component = ({ darkMode, dataGame, dataPeak, cekStat }) => {
+    const { auth } = usePage().props;
+
     const [isVisible, setIsVisible] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
-
+    
     const handlePopoverOpen = (event) => {
       setAnchorEl(event.currentTarget);
     };
@@ -63,7 +65,8 @@ const Game_Component = ({ darkMode, dataGame, dataPeak, cekStat }) => {
                             </Grid>
                         </Stack>
                     </InertiaLink> :
-                    <Box onClick={toggleVisibility}>
+                    // {auth.user ? auth.user.role == "admin" && <UpdatePeakPlayer idGame={dataStat.idGame}/> : null}
+                    <Box onClick={auth.user ? auth.user.role == "admin" && toggleVisibility : null}>
                         <Stack direction='row' >
                             <Grid container sx={{marginX: 2, marginY: 1}}>
                                 <Grid item xs={7}>

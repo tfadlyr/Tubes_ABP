@@ -31,68 +31,76 @@ const GameView =({ dataStat, data, dataPeak }) => {
     const [loadPublish, setLoadPublish] = useState(true)
 
     async function getDataPublish(){
-        var body = "fields name; where ";
-        publisher.map(
-            (data, index) => {
-                if(index === publisher.length - 1){
-                    body += ("changed_company_id = " + data.company + ";")
-                }else{
-                    body += ("changed_company_id = " + data.company + " | ")
+        if(publisher.length != 0){
+            var body = "fields name; where ";
+            publisher.map(
+                (data, index) => {
+                    if(index === publisher.length - 1){
+                        body += ("changed_company_id = " + data.company + ";")
+                    }else{
+                        body += ("changed_company_id = " + data.company + " | ")
+                    }
                 }
-            }
-        )
+            )
 
-        const response = await fetch(
-            "http://127.0.0.1:8000/https://api.igdb.com/v4/companies",
-            {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Client-ID": "dssjkvlpsxeqevzscna95z2abuz7ij",
-                    "Authorization": "Bearer " + keyAuth,
-                },
-                body: body
-            }
-        )
-        .then(request => request.json())
-        .then((data) => {
-            setDataPublish(data),
+            const response = await fetch(
+                "http://127.0.0.1:8000/https://api.igdb.com/v4/companies",
+                {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Client-ID": "dssjkvlpsxeqevzscna95z2abuz7ij",
+                        "Authorization": "Bearer " + keyAuth,
+                    },
+                    body: body
+                }
+            )
+            .then(request => request.json())
+            .then((data) => {
+                setDataPublish(data),
+                setLoadPublish(false)
+            })
+        }else{
             setLoadPublish(false)
-        })
+        }
     }
 
     const [dataDev, setDataDev] = useState(null)
     const [loadDev, setLoadDev] = useState(true)
 
     async function getDataDev(){
-        var body = "fields name; where ";
-        developerer.map(
-            (data, index) => {
-                if(index === developerer.length - 1){
-                    body += ("changed_company_id = " + data.company + ";")
-                }else{
-                    body += ("changed_company_id = " + data.company + " | ")
+        if(developerer.length != 0){
+            var body = "fields name; where ";
+            developerer.map(
+                (data, index) => {
+                    if(index === developerer.length - 1){
+                        body += ("changed_company_id = " + data.company + ";")
+                    }else{
+                        body += ("changed_company_id = " + data.company + " | ")
+                    }
                 }
-            }
-        )
+            )
 
-        const response = await fetch(
-            "http://127.0.0.1:8000/https://api.igdb.com/v4/companies",
-            {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Client-ID": "dssjkvlpsxeqevzscna95z2abuz7ij",
-                    "Authorization": "Bearer " + keyAuth,
-                },
-                body: body
-            }
-        )
-        .then(request => request.json())
-        .then((data) => {
-            setDataDev(data),
+            const response = await fetch(
+                "http://127.0.0.1:8000/https://api.igdb.com/v4/companies",
+                {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Client-ID": "dssjkvlpsxeqevzscna95z2abuz7ij",
+                        "Authorization": "Bearer " + keyAuth,
+                    },
+                    body: body
+                }
+            )
+            .then(request => request.json())
+            .then((data) => {
+                setDataDev(data),
+                setLoadDev(false)
+            })
+        }else{
             setLoadDev(false)
-        })
+        }
     }
 
     useEffect(()=>{
@@ -186,31 +194,29 @@ const GameView =({ dataStat, data, dataPeak }) => {
                                     <Typography variant="h6">Developer</Typography>
                                     <Grid className="dataTypography">
                                         {
-                                            dataDev.length != 0 ? 
-                                            dataDev.map(
+                                            dataDev ? dataDev.length != 0 ? dataDev.map(
                                                 (dev, index) => {
                                                     if(index === dataDev.length - 1){
                                                         return <Typography variant="h6" key={dev.id}>{dev.name}</Typography>
                                                     }
                                                     return <Typography variant="h6" key={dev.id}>{dev.name}, </Typography>
                                                 }
-                                            ) : <Typography variant="h6">Missing</Typography>
+                                            ) : <Typography variant="h6">Not Found</Typography> : <Typography variant="h6">Not Found</Typography>
                                         }
                                     </Grid>
                                 </Grid>
                                 <Grid item className="var2GamePage">
                                     <Typography variant="h6">Publisher</Typography>
                                     <Grid className="dataTypography">
-                                    {
-                                            dataPublish.length != 0 ? 
-                                            dataPublish.map(
+                                        {
+                                            dataPublish ? dataPublish.length != 0 ? dataPublish.map(
                                                 (pub, index) => {
                                                     if(index === dataPublish.length - 1){
                                                         return <Typography variant="h6" key={pub.id}>{pub.name}</Typography>
                                                     }
                                                     return <Typography variant="h6" key={pub.id}>{pub.name}, </Typography>
                                                 }
-                                            ) : <Typography variant="h6">Not Found</Typography>
+                                            ) : <Typography variant="h6">Not Found</Typography> : <Typography variant="h6">Not Found</Typography>
                                         }
                                     </Grid>
                                 </Grid>

@@ -14,6 +14,10 @@ class authController extends Controller
         return Inertia::render('Login_page');
     }
 
+    public function registerPage(){
+        return Inertia::render('SignUp_page');
+    }
+
     public function usersRegister(Request $request){
         $this->validate($request, [
             'name'      => 'required',

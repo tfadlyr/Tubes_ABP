@@ -174,11 +174,12 @@ const Dashboard = () => {
                                         <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
                                     </div>
                                     <InertiaLink href="/LoginPage">
-                                        <Typography sx={{color: "#FFFFFF"}}>Login</Typography>
+                                        <Typography sx={{color: "#FFFFFF"}} style={{display: 'inline-block'}}>Login</Typography>
                                     </InertiaLink>
-                                    <div style={{display: 'flex', gap: '8px'}}>
-                                        <Typography sx={{color: "#FFFFFF"}}>or</Typography>
-                                    </div>
+                                    <Typography sx={{color: "#FFFFFF"}} style={{display: 'inline-block'}}>/</Typography>
+                                    <InertiaLink href="/RegisterPage">
+                                        <Typography sx={{color: "#FFFFFF"}} style={{display: 'inline-block'}}>Register</Typography>
+                                    </InertiaLink>
                                 </div>
                             }
                         </Stack>

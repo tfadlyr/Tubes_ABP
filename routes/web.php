@@ -33,6 +33,7 @@ Route::get('/updateStats/{idGame}/{idPeak}/{dateStat}/{peakPlayer}', [dbControll
 Route::get('/updateInGame/{idGame}/{inGame}', [dbController::class, 'updateInGamePeak']);
 Route::get('/updatePeakPlayer/{idGame}/{peakPlayer}', [dbController::class, 'updatePeakPlayer']);
 Route::get('/LoginPage', [authController::class, 'loginPage']);
+Route::get('/RegisterPage', [authController::class, 'registerPage']);
 Route::get('/logout', [authController::class, 'usersLogout'])->middleware('auth');
 
 Route::post('/register', [authController::class, 'usersRegister']);
