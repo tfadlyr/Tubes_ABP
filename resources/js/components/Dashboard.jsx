@@ -158,8 +158,8 @@ const Dashboard = () => {
                 <Grid container spacing={2} sx={{padding: 5, paddingX: 10}}>
                     <Grid item xs={6}>
                         <Stack flex={1}>
-                            <Box sx={{backgroundColor: darkMode ? '#232738' : '#38623B', height: 600, maxWidth: 850, marginLeft: 30, borderRadius: 3}}>
-                                <Box sx={{backgroundColor: darkMode ? '#272E47' : '#3D6C41', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
+                            <Box sx={{backgroundColor: darkMode ? '#232738' : '#B9602E', height: 600, maxWidth: 850, marginLeft: 30, borderRadius: 3}}>
+                                <Box sx={{backgroundColor: darkMode ? '#272E47' : 'D67138', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
                                     <Grid container>
                                         <Grid item xs={7}>
                                             <Typography sx={{color: "#FFFFFF", textAlign: 'center'}}>Best Game of All Time</Typography>
@@ -180,8 +180,8 @@ const Dashboard = () => {
                         </Stack>
                     </Grid>
                     <Grid item xs={6}>
-                        <Box sx={{backgroundColor: darkMode ? '#232738' : '#38623B', height: 600, width: 600, marginRight: 0, borderRadius: 3}}>
-                            <Box sx={{backgroundColor: darkMode ? '#272E47' : '#3D6C41', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
+                        <Box sx={{backgroundColor: darkMode ? '#232738' : '#B9602E', height: 600, width: 600, marginRight: 0, borderRadius: 3}}>
+                            <Box sx={{backgroundColor: darkMode ? '#272E47' : '#D67138', height: 40, paddingTop: 1, borderTopLeftRadius: 12, borderTopRightRadius: 12}}>
                                 <Grid container>
                                     <Typography sx={{color: "#FFFFFF", textAlign: 'center'}} paddingX={16.5}>Upcoming Games</Typography>
                                 </Grid>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography, Popover } from "@mui/material";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import CardCekStat from "./CardCekStat";
 
@@ -14,6 +14,18 @@ const Game_Component = ({ darkMode, id }) => {
     const [loadingStat, setLoadingStat] = useState(true)
 
     const [isVisible, setIsVisible] = useState(false);
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handlePopoverOpen = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handlePopoverClose = () => {
+      setAnchorEl(null);
+    };
+  
+    const open = Boolean(anchorEl);
     
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
@@ -76,7 +88,7 @@ const Game_Component = ({ darkMode, id }) => {
 
     return (
         <>
-            <Box sx={{backgroundColor: darkMode ? '#232738' : '#38623B', height: 50, maxWidth: 850, marginY: 1, '&:hover': { cursor: 'pointer'}}}>
+            <Box sx={{backgroundColor: darkMode ? '#232738' : '#B9602E', height: 50, maxWidth: 850, marginY: 1, '&:hover': { cursor: 'pointer'}}}>
                 {
                     cekStat.response == 200 ? 
                     <InertiaLink href={directTo}>
