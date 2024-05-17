@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 use App\Models\User;
 
 class authController extends Controller
 {
+    public function loginPage(){
+        return Inertia::render('Login_page');
+    }
+
     public function usersRegister(Request $request){
         $this->validate($request, [
             'name'      => 'required',

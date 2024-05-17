@@ -1,101 +1,63 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography, Popover } from "@mui/material";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import CardCekStat from "./CardCekStat";
 
 
-const Game_Component = ({ darkMode, id }) => {
-    /*API*/
-    const [dataApi, setDataApi] = useState(null)
-    const [dataDB, setDataDB] = useState(null)
-    const [cekStat, setCekStat] = useState(null)
-    const [loadingApi, setLoadingApi] = useState(true)
-    const [loadingDB, setLoadingDB] = useState(true)
-    const [loadingStat, setLoadingStat] = useState(true)
-
+const Game_Component = ({ darkMode, dataGame, dataPeak, cekStat }) => {
     const [isVisible, setIsVisible] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handlePopoverOpen = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handlePopoverClose = () => {
+      setAnchorEl(null);
+    };
+  
+    const open = Boolean(anchorEl);
     
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
       };
 
-    async function loadDataApi(){
-        const request = await fetch(
-            "https://api.rawg.io/api/games/"+id+"?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa",
-            {headers: {'Accept': 'application/json'}})
-            .then(request => request.json())
-            .then((data) => {
-                setDataApi(data)
-                setLoadingApi(false)
-            })
-            .catch(err => console.log(err))
-    }
-
-    async function loadDataDB(){
-        const request = await fetch(
-            "/gamePeak/"+id+"",
-            {headers: {'Accept': 'application/json'}})
-            .then(request => request.json())
-            .then((data) => {
-                setDataDB(data)
-                setLoadingDB(false)
-            })
-            .catch(err => console.log(err))
-    }
-
-    async function cekStatistik(){
-        const request = await fetch(
-            "/cekStatistik/"+id+"",
-            {headers: {'Accept': 'application/json'}})
-            .then(request => request.json())
-            .then((data) => {
-                setCekStat(data)
-                setLoadingStat(false)
-            })
-            .catch(err => console.log(err))
-    }
-
-    useEffect(() => {
-        loadDataApi()
-    }, [])
-
-    useEffect(() => {
-        loadDataDB()
-    }, [])
-
-    useEffect(() => {
-        cekStatistik()
-    }, [])
-
-    /*Loading page*/
-    if(loadingApi || loadingDB || loadingStat){
-        return (<div>Loading...</div>)
-    }
-
-    const directTo = "/game/"+id;
+    const directTo = "/game/"+dataGame.id;
 
     return (
         <>
-            <Box sx={{backgroundColor: darkMode ? '#232738' : '#38623B', height: 50, maxWidth: 850, marginY: 1, '&:hover': { cursor: 'pointer'}}}>
+            <Box
+                sx={{
+                backgroundColor: darkMode ? '#232738' : '#B9602E',
+                height: 50,
+                maxWidth: 850,
+                marginY: 1,
+                '&:hover': { cursor: 'pointer' }
+                }}
+                onMouseEnter={handlePopoverOpen}
+                onMouseLeave={handlePopoverClose}
+                aria-owns={open ? 'mouse-over-popover' : undefined}
+                aria-haspopup="true"
+            >
                 {
-                    cekStat.response == 200 ? 
+                    cekStat ? 
                     <InertiaLink href={directTo}>
                         <Stack direction='row' >
                             <Grid container sx={{marginX: 2, marginY: 1}}>
                                 <Grid item xs={7}>
                                     <Stack direction='row' alignItems='center' spacing={2}>
-                                        <img height={44} width={94} src={dataApi.background_image}/>
-                                        <Typography sx={{color: "#FFFFFF"}}>{dataApi.name}</Typography>
+                                        <img height={44} width={94} src={dataGame.cover.url}/>
+                                        <Typography sx={{color: "#FFFFFF"}}>{dataGame.name}</Typography>
                                     </Stack>
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography sx={{color: "#FFFFFF" , textAlign: 'center'}}>
-                                        {dataDB.response == 200 ? dataDB.dataPeak[0].peak_player : 0}
+                                        {dataPeak ? dataPeak.peak_player : 0}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={2}>
                                     <Typography sx={{color: "#FFFFFF" , textAlign: 'center'}}>
-                                        {dataDB.response == 200 ? dataDB.dataPeak[0].in_game_peak : 0}
+                                        {dataPeak ? dataPeak.in_game_peak : 0}
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -106,25 +68,25 @@ const Game_Component = ({ darkMode, id }) => {
                             <Grid container sx={{marginX: 2, marginY: 1}}>
                                 <Grid item xs={7}>
                                     <Stack direction='row' alignItems='center' spacing={2}>
-                                        <img height={44} width={94} src={dataApi.background_image}/>
-                                        <Typography sx={{color: "#FFFFFF"}}>{dataApi.name}</Typography>
+                                    <img height={44} width={94} src={dataGame.cover.url}/>
+                                        <Typography sx={{color: "#FFFFFF"}}>{dataGame.name}</Typography>
                                     </Stack>
                                 </Grid>
                                 <Grid item xs={3}>
                                     <Typography sx={{color: "#FFFFFF" , textAlign: 'center'}}>
-                                        {dataDB.response == 200 ? dataDB.dataPeak[0].peak_player : 0}
+                                        {dataPeak ? dataPeak.peak_player : 0}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={2}>
                                     <Typography sx={{color: "#FFFFFF" , textAlign: 'center'}}>
-                                        {dataDB.response == 200 ? dataDB.dataPeak[0].in_game_peak : 0}
+                                        {dataPeak ? dataPeak .in_game_peak : 0}
                                     </Typography>
                                 </Grid>
                             </Grid>
                         </Stack>
                         {
                             isVisible && (
-                                <CardCekStat idGame={id}/>
+                                <CardCekStat idGame={dataGame.id}/>
                             )
                         }
                     </Box>
@@ -148,24 +110,39 @@ const Game_Component = ({ darkMode, id }) => {
             >
                 <Box sx={{ p: 2, borderRadius: 5, width: 322, height: 388 }}>
                     <Stack spacing={0.5}>
-                        <img src={pic} alt={`${name} thumbnail`} width="285" height="162" />
+                        <img src={dataGame.cover.url} alt={`${name} thumbnail`} width="285" height="162" />
                         <Typography variant="h5" sx={{ mb: 1, fontWeight: 'bold' }}>
-                            {name}
+                            {dataGame.name}
                         </Typography>
                         <Typography variant="body2">
-                            Developer: 
+                            User rating: {(dataGame.rating).toFixed(2)}
                         </Typography>
                         <Typography variant="body2">
-                            Release date:
+                            Genres: {
+                                dataGame.genres.map(
+                                    (data, index) => {
+                                        if(index === dataGame.genres.length - 1){
+                                            return data.name
+                                        }
+                                        return (data.name+", ")
+                                    }
+                                )
+                            }
                         </Typography>
                         <Typography variant="body2">
-                            Peak player:
+                            Platforms: {
+                                dataGame.platforms.map(
+                                    (data, index) => {
+                                        if(index === dataGame.platforms.length - 1){
+                                            return data.name
+                                        }
+                                        return (data.name+", ")
+                                    }
+                                )
+                            }
                         </Typography>
                         <Typography variant="body2">
-                            Supported systems:
-                        </Typography>
-                        <Typography variant="body2">
-                            User rating:
+                            Release date: {dataGame.release_dates[0].human}
                         </Typography>
                     </Stack>
                 </Box>

@@ -1,7 +1,5 @@
 import React from "react";
 import { Box, Typography, TextField, Grid, Paper, Stack } from '@mui/material'
-import Sign_up from "./Sign_up";
-import Login from "./Login";
 import Game_Component from "./Game_Component";
 import { useState, useEffect } from "react";
 import Game from "./Game";
@@ -10,26 +8,9 @@ import { auto } from "@popperjs/core";
 import NewReleasedComponent from "./NewReleasedComponent";
 import LightMode from "../../../public/Light_Mode.png";
 import DarkMode from "../../../public/Dark_Mode.png";
-
+import Loading from "./Loading.jsx"
 
 const Dashboard = () => {
-    const { auth } = usePage().props;
-
-    /*API*/
-    const [dataApi, setProductData] = useState(null)
-    const [loading, setLoading] = useState(true)
-    
-    const [upcoming, setDataApi] = useState(null)
-    const [loadingUpcoming, setLoadingApi] = useState(true)
-
-    const [darkMode, setDarkMode] = useState(true);
-    const [imageSource, setImageSource] = useState(DarkMode);
-
-    const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    setImageSource(darkMode ? LightMode : DarkMode);
-    };
-
     // const [search, setSearch] = useState(null)
     // const [loadingSearch, setLoadingSearch] = useState(null)
 
@@ -58,58 +39,111 @@ const Dashboard = () => {
     //         //Inertia.get('/game/'+search.results[0].id)
     //     }
     // }
-    
-    async function loadData(){
-        const request = await fetch(
-            "https://api.rawg.io/api/games?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa&-ordering=rating",
-            {headers: {'Accept': 'application/json'}})
-            .then(request => request.json())
-            .then((data) => {
-                setProductData(data)
-                setLoading(false)
-            })
-            .catch(err => console.log(err))
-    }
-    
-    async function loadDataApi(){
-        const date = new Date();
 
-        let getDate = "" + date.getFullYear() + "-" + (
-            date.getMonth() < 10 ? ("0"+date.getMonth()) : date.getMonth()
-        ) + "-" + (
-            date.getDate() < 10 ? ("0"+date.getDate()) : date.getDate()
-        ) +"";
+    // async function loadDataApi(){
+    //     const date = new Date();
+
+    //     let getDate = "" + date.getFullYear() + "-" + (
+    //         date.getMonth() < 10 ? ("0"+date.getMonth()) : date.getMonth()
+    //     ) + "-" + (
+    //         date.getDate() < 10 ? ("0"+date.getDate()) : date.getDate()
+    //     ) +"";
         
-        let nextYear = "" + (date.getFullYear() + 1) + "-" + (
-            date.getMonth() < 10 ? ("0"+date.getMonth()) : date.getMonth()
-        ) + "-" + (
-            date.getDate() < 10 ? ("0"+date.getDate()) : date.getDate()
-        ) +"";
+    //     let nextYear = "" + (date.getFullYear() + 1) + "-" + (
+    //         date.getMonth() < 10 ? ("0"+date.getMonth()) : date.getMonth()
+    //     ) + "-" + (
+    //         date.getDate() < 10 ? ("0"+date.getDate()) : date.getDate()
+    //     ) +"";
 
+    //     const request = await fetch(
+    //         "https://api.rawg.io/api/games?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa&dates="+getDate+","+nextYear+"",
+    //         {headers: {'Accept': 'application/json'}})
+    //         .then(request => request.json())
+    //         .then((data) => {
+    //             setDataApi(data)
+    //             setLoadingApi(false)
+    //         })
+    //         .catch(err => console.log(err))
+    // }
+
+    // useEffect(() => {
+    //     loadDataApi()
+    // }, [])
+    
+    const { auth } = usePage().props;
+
+    const [darkMode, setDarkMode] = useState(true);
+    const [imageSource, setImageSource] = useState(DarkMode);
+
+    const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    setImageSource(darkMode ? LightMode : DarkMode);
+    };
+
+    /*API*/
+    const keyAuth = "un5uh3r9jrx2702cnegws69bm5k1fi";
+    
+    const [dataApi, setDataApi] = useState(null)
+    const [loadApi, setLoadApi] = useState(true)
+
+    async function getDataApi(){
         const request = await fetch(
-            "https://api.rawg.io/api/games?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa&dates="+getDate+","+nextYear+"",
+            "http://127.0.0.1:8000/https://api.igdb.com/v4/games",
+            {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Client-ID": "dssjkvlpsxeqevzscna95z2abuz7ij",
+                    "Authorization": "Bearer " + keyAuth,
+                },
+                body: "fields name, cover.*, rating, release_dates.human, involved_companies.*, platforms.name, summary, videos.*, genres.name, age_ratings.category; sort rating desc; where release_dates.y < 2020;"
+            }
+        )
+        .then(request => request.json())
+        .then((data) => {
+            setDataApi(data),
+            setLoadApi(false)
+        })
+    }
+
+    const [dataPeak, setDataPeak] = useState(null);
+    const [loadPeak, setLoadPeak] = useState(true);
+
+    async function loadPeakGame(){
+        const request = await fetch(
+            "/gamePeak",
             {headers: {'Accept': 'application/json'}})
             .then(request => request.json())
             .then((data) => {
-                setDataApi(data)
-                setLoadingApi(false)
-            })
-            .catch(err => console.log(err))
+                setDataPeak(data)
+                setLoadPeak(false)
+            }).catch(err => console.log(err))
     }
 
-    useEffect(() => {
-        loadDataApi()
-    }, [])
+    const [dataStat, setDataStat] = useState(null);
+    const [loadStat, setLoadStat] = useState(true);
 
-    useEffect(() => {
-        loadData()
+    async function loadStatGame(){
+        const response = await fetch(
+            "/cekStatistik",
+            {headers: {'Accept': 'application/json'}})
+            .then(request => request.json())
+            .then((data) => {
+                setDataStat(data)
+                setLoadStat(false)
+            }).catch(err => console.log(err))
+    }
+
+    useEffect(()=>{
+        getDataApi()
+        loadPeakGame()
+        loadStatGame()
     }, [])
 
     /*Loading page*/
-    if(loading || loadingUpcoming){
-        return (<div>Loading...</div>)
+    if(loadApi || loadPeak || loadStat){
+        return (<Loading/>)
     }
-
 
     return (
         <>
@@ -140,9 +174,7 @@ const Dashboard = () => {
                                         <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
                                     </div>
                                     <div style={{display: 'flex', gap: '8px'}}>
-                                        <Login/>
                                         <Typography sx={{color: "#FFFFFF"}}>or</Typography>
-                                        <Sign_up/>
                                     </div>
                                 </div>
                             }
@@ -174,8 +206,27 @@ const Dashboard = () => {
                                 </Box>
                                 {/*Best Game of All Time*/}
                                 {
-                                    dataApi.results.slice(0, 9).map((data, index) => <Game_Component darkMode={darkMode} id={data.id} key={index} />)
+                                    dataApi.map(
+                                        (game, index) => {
+                                            for(var i = 0; i < dataPeak.length; i++){
+                                                if(dataPeak[i].id_game == game.id){
+                                                    for(var j = 0; j < dataStat.length; j++){
+                                                        if(dataStat[j].id_game == game.id){
+                                                            return <Game_Component darkMode={darkMode} dataGame={game} dataPeak={dataPeak[i]} cekStat={true} key={index}/>
+                                                        }
+                                                    }
+                                                    return <Game_Component darkMode={darkMode} dataGame={game} dataPeak={dataPeak[i]} cekStat={false} key={index}/>
+                                                }
+                                            }
+                                            return <Game_Component darkMode={darkMode} dataGame={game} dataPeak={null} cekStat={false} key={index}/>
+                                        }
+                                    )
                                 }
+                                {/* {
+                                    dataApi.map((data, index) => 
+                                        <Game_Component darkMode={darkMode} dataGame={data} key={index}/>
+                                    )
+                                } */}
                             </Box>
                         </Stack>
                     </Grid>
@@ -187,9 +238,9 @@ const Dashboard = () => {
                                 </Grid>
                             </Box>
                             {/*Upcoming Games*/}
-                            {
+                            {/* {
                                 upcoming.results.slice(0, 4).map((data, index) => <NewReleasedComponent darkMode={darkMode} dataApi={data} key={index}/>)
-                            }
+                            } */}
                         </Box>
                     </Grid>
                     <Grid item xs={2}>

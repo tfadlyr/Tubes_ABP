@@ -4,57 +4,63 @@ import '../../css/app.css';
 import { Head, InertiaLink, usePage } from '@inertiajs/inertia-react';
 import { auto } from "@popperjs/core";
 
-import Sign_up from "./Sign_up";
-import Login from "./Login";
 import UpdateInGame from "./UpdateInGame";
 import UpdatePeakPlayer from "./UpdatePeakPlayer";
 import UpdateGameStatistic from "./UpdateGameStatistic";
 import InsertGameStatistic from "./InsertGameStatistic";
+import Loading from "./Loading.jsx"
 
 
 const Game =({ dataStat }) => {
     const { auth } = usePage().props;
 
     /*API*/
+    const keyAuth = "un5uh3r9jrx2702cnegws69bm5k1fi";
+
     const [data, setProductData] = useState(null)
-    const [dataDB, setDataDB] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [loadingDB, setLoadingDB] = useState(true)
 
     async function loadDataApi(){
         const request = await fetch(
-            "https://api.rawg.io/api/games/"+dataStat.idGame+"?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa",
-            {headers: {'Accept': 'application/json'}})
-            .then(request => request.json())
-            .then((data) => {
-                setProductData(data)
-                setLoading(false)
-            })
-            .catch(err => console.log(err))
+            "http://127.0.0.1:8000/https://api.igdb.com/v4/games",
+            {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Client-ID": "dssjkvlpsxeqevzscna95z2abuz7ij",
+                    "Authorization": "Bearer " + keyAuth,
+                },
+                body: "fields name, cover.*, rating, release_dates.human, involved_companies.*, platforms.name, summary, videos.*, genres.name, age_ratings.*; sort rating desc; where id = "+dataStat.idGame+";"
+            }
+        )
+        .then(request => request.json())
+        .then((data) => {
+            setProductData(data[0]),
+            setLoading(false)
+        })
     }
 
-    async function loadDataDB(){
+    const [dataPeak, setDataPeak] = useState(null);
+    const [loadPeak, setLoadPeak] = useState(true);
+
+    async function loadPeakGame(){
         const request = await fetch(
-            "/gamePeak/"+dataStat.idGame+"",
+            "/searchPeak/"+dataStat.idGame,
             {headers: {'Accept': 'application/json'}})
             .then(request => request.json())
             .then((data) => {
-                setDataDB(data)
-                setLoadingDB(false)
-            })
-            .catch(err => console.log(err))
+                setDataPeak(data[0])
+                setLoadPeak(false)
+            }).catch(err => console.log(err))
     }
 
     useEffect(() => {
         loadDataApi()
+        loadPeakGame()
     }, [])
 
-    useEffect(() => {
-        loadDataDB()
-    }, [])
-
-    if(loading || loadingDB){
-        return (<div>Loading...</div>)
+    if(loading || loadPeak){
+        return (<Loading/>)
     }
 
     return (
@@ -86,9 +92,7 @@ const Game =({ dataStat }) => {
                                         <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
                                     </div>
                                     <div style={{display: 'flex', gap: '8px'}}>
-                                        <Login/>
                                         <Typography sx={{color: "#FFFFFF"}}>or</Typography>
-                                        <Sign_up/>
                                     </div>
                                 </div>
                             }
@@ -103,17 +107,17 @@ const Game =({ dataStat }) => {
                 </Stack>
                 <Grid container sx={{display: 'flex', justifyContent:'space-between', paddingTop: 10}} spacing={10}>
                     <Grid item xs={2.5} sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                        <img src={data.background_image} height={300} width={300}/>
+                        <img src={data.cover.url} height={300} width={300}/>
                         <Grid sx={{color: 'var(--main-text-color)', textAlign: 'center', }}>
                             <Typography variant="h6">Users rating:</Typography>
-                            <Typography variant="h6">{data.rating} / {data.rating_top}</Typography>
+                            <Typography variant="h6">{(data.rating).toFixed(2)}</Typography>
                         </Grid>
                     </Grid>
                     <Grid item xs={4.5} sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
                         <Grid sx={{color: 'var(--main-text-color)', marginBottom: 5}}>
                             <Typography variant="h3">Game Description </Typography>
                             <Typography variant="h6" sx={{ overflow: 'auto', maxHeight: 250 }}>
-                                {data.description_raw}
+                                {data.summary}
                             </Typography>
 
                         </Grid>
@@ -121,17 +125,17 @@ const Game =({ dataStat }) => {
                             <Grid sx={{textAlign: 'center'}}>
                                 <Typography variant="h6">In-game</Typography>
                                 <Typography variant="h6">
-                                {dataDB.response == 200 ? dataDB.dataPeak[0].in_game_peak : 0}
+                                    {dataPeak ? dataPeak.in_game_peak : 0}
                                 </Typography>
-                                {auth.user.role == 'admin' && <UpdateInGame idGame={dataStat.idGame}/>}
+                                {auth.user ? auth.user.role == "admin" && <UpdateInGame idGame={dataStat.idGame}/> : null}
                             </Grid>
                             <Typography sx={{fontSize: 32}}>|</Typography>
                             <Grid sx={{textAlign: 'center'}}>
                                 <Typography variant="h6">Peak players</Typography>
                                 <Typography variant="h6">
-                                    {dataDB.response == 200 ? dataDB.dataPeak[0].peak_player : 0}
+                                    {dataPeak ? dataPeak.peak_player : 0}
                                 </Typography>
-                                {auth.user.role == 'admin' && <UpdatePeakPlayer idGame={dataStat.idGame}/>}
+                                {auth.user ? auth.user.role == "admin" && <UpdateInGame idGame={dataStat.idGame}/> : null}
                             </Grid>
                         </Grid>
                     </Grid>
@@ -140,38 +144,38 @@ const Game =({ dataStat }) => {
                             <Grid item className="var1GamePage">
                                 <Typography variant="h6">Developer</Typography>
                                 <Grid className="dataTypography">
-                                    {
+                                    {/* {
                                         data.developers.map((dev, index) =>{
                                             if(index === data.developers.length - 1){
                                                 return <Typography variant="h6" key={dev.id}>{dev.name}</Typography>
                                             }
                                             return <Typography variant="h6" key={dev.id}>{dev.name}, </Typography>
                                         })
-                                    }
+                                    } */}
                                 </Grid>
                             </Grid>
                             <Grid item className="var2GamePage">
                                 <Typography variant="h6">Publisher</Typography>
                                 <Grid className="dataTypography">
-                                    {
+                                    {/* {
                                         data.publishers.map((pub, index) => {
                                             if(index === data.publishers.length - 1){
                                                 return <Typography variant="h6" key={pub.id}>{pub.name}</Typography>
                                             }
                                             return <Typography variant="h6" key={pub.id}>{pub.name}, </Typography>
                                         })    
-                                    }
+                                    } */}
                                 </Grid>
                             </Grid>
                             <Grid item className="var1GamePage">
                                 <Typography variant="h6">Supported Systems</Typography>
                                 <Grid className="dataTypography">
                                     {
-                                        data.parent_platforms.map((plat, index) => {
-                                            if(index === data.parent_platforms.length - 1){
-                                                return <Typography variant="h6" key={plat.platform.id}>{plat.platform.name}</Typography>
+                                        data.platforms.map((plat, index) => {
+                                            if(index === data.platforms.length - 1){
+                                                return <Typography variant="h6" key={plat.id}>{plat.name}</Typography>
                                             }
-                                            return <Typography variant="h6" key={plat.platform.id}>{plat.platform.name}, </Typography>
+                                            return <Typography variant="h6" key={plat.id}>{plat.name}, </Typography>
                                         })
                                     }
                                 </Grid>
@@ -179,7 +183,7 @@ const Game =({ dataStat }) => {
                             <Grid item className="var2GamePage">
                                 <Typography variant="h6">Release date</Typography>
                                 <Grid className="dataTypography">
-                                    <Typography variant="h6">{data.released}</Typography>
+                                    <Typography variant="h6">{data.release_dates[0].human}</Typography>
                                 </Grid>
                             </Grid>
                             <Grid item className="var1GamePage">
@@ -198,7 +202,24 @@ const Game =({ dataStat }) => {
                             <Grid item className="var2GamePage">
                                 <Typography variant="h6">Age rating</Typography>
                                 <Grid className="dataTypography">
-                                    <Typography variant="h6">{data.esrb_rating.name}</Typography>
+                                    {
+                                        data.age_ratings.map(
+                                            (data, index)=>{
+                                                var age = data.rating
+                                                if(age === 1 || age === 2 || age === 7 ||age === 8 || age === 13 || age === 18 || age === 23 || age === 28 || age === 34){
+                                                    return <Typography variant="h6" key={index}>E | Everyone</Typography>
+                                                }else if(age === 3 || age === 10 || age === 20 || age === 24 || age === 30 || age === 36){
+                                                    return <Typography variant="h6" key={index}>T | Teen</Typography>
+                                                }else if(age === 4 || age === 11 || age === 15 || age === 21 || age === 25 || age === 31 || age === 36){
+                                                    return <Typography variant="h6" key={index}>M | Mature</Typography>
+                                                }else if(age === 5 || age === 12 || age === 16 || age === 17 || age === 22 || age === 26 || age === 33 || age === 38){
+                                                    return <Typography variant="h6" key={index}>AO | Adults Only</Typography>
+                                                }else{
+                                                    return <Typography variant="h6" key={index}>RP | Rating Pending</Typography>
+                                                }
+                                            }
+                                        )
+                                    }
                                 </Grid>
                             </Grid>
                         </Stack>
@@ -217,7 +238,7 @@ const Game =({ dataStat }) => {
                                 <Typography sx={{color: 'var(--main-text-color)'}}>|</Typography>
                                 <Typography sx={{color: 'var(--main-text-color)'}}>Gain</Typography>
                             </Stack>
-                            {auth.user.role == 'admin' && <InsertGameStatistic idGame={dataStat.idGame} peakPlayer={dataStat.yearsStat[0].peaks[0].peakPlayer}/>}
+                            {/* {auth.user.role == 'admin' && <InsertGameStatistic idGame={dataStat.idGame} peakPlayer={dataStat.yearsStat[0].peaks[0].peakPlayer}/>} */}
                         </Grid>
                     </Box>
                     <Box sx={{display: 'flex', alignContent: 'center', marginTop: 4}}>
@@ -231,7 +252,7 @@ const Game =({ dataStat }) => {
                                                 <TableCell sx={{color: 'var(--main-text-color)'}}>Month</TableCell>
                                                 <TableCell sx={{color: 'var(--main-text-color)'}}>Peak</TableCell>
                                                 <TableCell sx={{color: 'var(--main-text-color)'}}>Gain</TableCell>
-                                                {auth.user.role == 'admin' && <TableCell sx={{color: 'var(--main-text-color)'}}>Update or Delete</TableCell>}
+                                                {/* {auth.user.role == 'admin' && <TableCell sx={{color: 'var(--main-text-color)'}}>Update or Delete</TableCell>} */}
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -274,7 +295,7 @@ const Game =({ dataStat }) => {
                                                                         }
                                                                     </Stack>
                                                                 </TableCell>
-                                                                {auth.user.role == 'admin' && (
+                                                                {/* {auth.user.role == 'admin' && (
                                                                     <TableCell>
                                                                         <Stack spacing={1}>
                                                                             {
@@ -290,7 +311,7 @@ const Game =({ dataStat }) => {
                                                                             }
                                                                         </Stack>
                                                                     </TableCell>
-                                                                )}
+                                                                )} */}
                                                             </TableRow>
                                                         )
                                                     }

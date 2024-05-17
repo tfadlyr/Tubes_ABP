@@ -9,14 +9,19 @@ use Inertia\Inertia;
 
 class dbController extends Controller
 {
-    public function showPeakGame($idGame){
-        $peakData = DB::select('SELECT * FROM tbl_peak WHERE id_game='.$idGame);
+    public function showPeakGame(){
+        $peakData = DB::table('tbl_peak')->get();
+        return response()->json($peakData);
+    }
 
-        if(count($peakData) != 0){
-            return response()->json(['response' => 200, 'dataPeak' => $peakData]);
-        }else{
-            return response()->json(['response' => 404]);
-        }
+    public function searchPeakGame($idGame){
+        $peakData = DB::table('tbl_peak')->where('id_game', $idGame)->get();
+        return response()->json($peakData);
+    }
+
+    public function cekGameStatistik(){
+        $data = DB::select('SELECT DISTINCT id_game FROM tbl_statistik');
+        return response()->json($data);
     }
 
     public function showPageGame($idGame){
@@ -75,16 +80,6 @@ class dbController extends Controller
         }
 
         return Inertia::render('Game', ["dataStat" => $dataStat]);
-    }
-
-    public function cekGameStatistik($idGame){
-        $data = DB::select('SELECT * FROM tbl_statistik WHERE id_game='.$idGame);
-
-        if(count($data) == 0){
-            return response()->json(['response' => 404]);
-        }else{
-            return response()->json(['response' => 200]);
-        }
     }
 
     public function createGameStatistik($idGame){
