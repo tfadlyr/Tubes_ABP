@@ -5,6 +5,8 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\dbController;
 use App\Http\Controllers\authController;
+use App\Http\Controllers\apiController;
+
 
 /*
 |--------------------------------------------------------------------------

@@ -173,6 +173,9 @@ const Dashboard = () => {
                                     <div>
                                         <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
                                     </div>
+                                    <InertiaLink href="/LoginPage">
+                                        <Typography sx={{color: "#FFFFFF"}}>Login</Typography>
+                                    </InertiaLink>
                                     <div style={{display: 'flex', gap: '8px'}}>
                                         <Typography sx={{color: "#FFFFFF"}}>or</Typography>
                                     </div>
