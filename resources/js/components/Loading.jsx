@@ -21,9 +21,6 @@ const Loading = () => {
                         <Grid item xs={9.5}>
                             <Typography variant="h4" sx={{color:  '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
                         </Grid>
-                        <Grid item xs={2.5}>
-                            <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, width: 384}}/>
-                        </Grid>
                     </Grid>
                 </Paper>
                 <Stack direction="column" alignItems="center" justifyContent="center" sx={{marginY: 50}}>
@@ -31,7 +28,6 @@ const Loading = () => {
                     <Typography sx={{color: "#FFFFFF"}}>We're cooking your needs so you can enjoy our service</Typography>
                     <Typography sx={{color: "#FFFFFF"}}>(Who let us cook???)</Typography>
                 </Stack>
-                {/* <img src={imageSource} style={{height: 100}} onClick={toggleDarkMode}/> */}
             </Box>
         </>
     )

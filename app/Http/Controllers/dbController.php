@@ -23,7 +23,7 @@ class dbController extends Controller
         $data = DB::select('SELECT DISTINCT id_game FROM tbl_statistik');
         return response()->json($data);
     }
-
+    
     public function showPageGame($idGame){
         $monthNames = [
             "January", "February", "March", "April", "May", "June",

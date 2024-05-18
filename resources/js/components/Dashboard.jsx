@@ -1,14 +1,18 @@
 import React from "react";
-import { Box, Typography, TextField, Grid, Paper, Stack } from '@mui/material'
-import Game_Component from "./Game_Component";
 import { useState, useEffect } from "react";
-import Game from "./Game";
+import { Router, Routes, useNavigate } from "react-router-dom";
+
+import { Box, Typography, TextField, Grid, Paper, Stack } from '@mui/material'
 import { Head, InertiaLink, usePage, Inertia } from '@inertiajs/inertia-react';
 import { auto } from "@popperjs/core";
+
+import Game_Component from "./Game_Component";
+import Game from "./Game";
+import Loading from "./Loading.jsx"
+
 import NewReleasedComponent from "./NewReleasedComponent";
 import LightMode from "../../../public/Light_Mode.png";
 import DarkMode from "../../../public/Dark_Mode.png";
-import Loading from "./Loading.jsx"
 
 const Dashboard = () => {
     // const [search, setSearch] = useState(null)
@@ -78,6 +82,15 @@ const Dashboard = () => {
     const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     setImageSource(darkMode ? LightMode : DarkMode);
+    };
+
+    const [search, setSearch] = useState('');
+    const navigate = useNavigate();
+  
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        navigate(`/search/${search}`);
+      }
     };
 
     /*API*/
@@ -154,7 +167,17 @@ const Dashboard = () => {
                             <Typography variant="h4" sx={{color:  '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
                         </Grid>
                         <Grid item xs={2.5}>
-                            {/* <TextField onChange={(e) => setSearchGame(e.target.value)} onKeyPress={handleKeyPress} id="outlined-basic" placeholder="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, width: 384}}/> */}
+                            <Stack flex={1}>
+                                <TextField
+                                 id="outlined-basic"
+                                 label="Search" 
+                                 variant="outlined" 
+                                 sx={{backgroundColor: '#FFFFFF', borderRadius: 2, maxWidth: 384}}
+                                 value={search}
+                                 onChange={(e) => setSearch(e.target.value)}
+                                 onKeyDown={handleKeyDown} 
+                                />
+                            </Stack>
                         </Grid>
                     </Grid>
                 </Paper>

@@ -20,7 +20,7 @@ use App\Http\Controllers\apiController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Example');
 });
 
 Route::get('/gamePeak', [dbController::class, 'showPeakGame']);
