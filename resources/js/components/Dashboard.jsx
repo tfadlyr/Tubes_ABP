@@ -32,7 +32,9 @@ const Dashboard = () => {
                             </Stack>
                         </Grid>
                         <Grid item xs={2.5}>
-                            <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, width: 384}}/>
+                            <Stack flex={1}>
+                                <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, maxWidth: 384}}/>
+                            </Stack>
                         </Grid>
                     </Grid>
                 </Paper>
