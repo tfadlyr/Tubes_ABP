@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Favorites from './Favorites';
 import SignUp_page from "./SignUp_page"
 import Login_page from './Login_page';
+import Search_page from './Search_page'
 
 function Example() {
     return (
@@ -20,7 +21,8 @@ function Example() {
             {/* <Loading/> */}
             {/* <Favorites/> */}
             {/* <SignUp_page/> */}
-            <Login_page/>
+            {/* <Login_page/> */}
+            <Search_page/>
         </>
     );
 }
