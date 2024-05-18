@@ -27,6 +27,7 @@ Route::get('/gamePeak', [dbController::class, 'showPeakGame']);
 Route::get('/searchPeak/{idGame}', [dbController::class, 'searchPeakGame']);
 Route::get('/game/{idGame}', [dbController::class, 'showPageGame']);
 Route::get('/cekStatistik', [dbController::class, 'cekGameStatistik']);
+Route::get('/getFavorit/{idGame}/{idUsers}', [dbController::class, 'getFavGame']);
 Route::get('/insertStats/{idGame}/{dateStat}/{peakPlayer}', [dbController::class, 'insertStatistikGame']);
 Route::get('/deleteStats/{idGame}/{idPeak}', [dbController::class, 'deleteStatistikGame']);
 Route::get('/updateStats/{idGame}/{idPeak}/{dateStat}/{peakPlayer}', [dbController::class, 'updateStatistikGame']);
@@ -40,3 +41,6 @@ Route::post('/register', [authController::class, 'usersRegister']);
 Route::post('/login', [authController::class, 'usersLogin']);
 
 Route::get('/createStatistik/{idGame}', [dbController::class, 'createGameStatistik']);
+Route::get('/addFavGame/{idGame}/{idUsers}', [dbController::class, 'addFavGame']);
+Route::get('/delFavGame/{idFav}', [dbController::class, 'delFavGame']);
+Route::get('/showGameFav/{idUsers}', [dbController::class, 'showFavGame']);

@@ -15,65 +15,6 @@ import LightMode from "../../../public/Light_Mode.png";
 import DarkMode from "../../../public/Dark_Mode.png";
 
 const Dashboard = () => {
-    // const [search, setSearch] = useState(null)
-    // const [loadingSearch, setLoadingSearch] = useState(null)
-
-    // const [searchGame, setSearchGame] = useState(null);
-
-    // async function searchingGame(){
-    //     const request = await fetch(
-    //         "https://api.rawg.io/api/games?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa&search='"+searchGame+"'",
-    //         {headers: {'Accept': 'application/json'}})
-    //         .then(request => request.json())
-    //         .then((data) => {
-    //             setSearch(data)
-    //             setLoadingSearch(false)
-    //         })
-    //         .catch(err => console.log(err))
-    // }
-
-    // const handleKeyPress = async (event) => {
-    //     if (event.key === 'Enter') {
-    //         await searchingGame()
-
-    //         if(loadingSearch){
-    //             return (<div>Loading...</div>)
-    //         }
-    //         console.log(search)
-    //         //Inertia.get('/game/'+search.results[0].id)
-    //     }
-    // }
-
-    // async function loadDataApi(){
-    //     const date = new Date();
-
-    //     let getDate = "" + date.getFullYear() + "-" + (
-    //         date.getMonth() < 10 ? ("0"+date.getMonth()) : date.getMonth()
-    //     ) + "-" + (
-    //         date.getDate() < 10 ? ("0"+date.getDate()) : date.getDate()
-    //     ) +"";
-        
-    //     let nextYear = "" + (date.getFullYear() + 1) + "-" + (
-    //         date.getMonth() < 10 ? ("0"+date.getMonth()) : date.getMonth()
-    //     ) + "-" + (
-    //         date.getDate() < 10 ? ("0"+date.getDate()) : date.getDate()
-    //     ) +"";
-
-    //     const request = await fetch(
-    //         "https://api.rawg.io/api/games?key=d7ce6c6f63ef4dfab77dc0bbc3cf21aa&dates="+getDate+","+nextYear+"",
-    //         {headers: {'Accept': 'application/json'}})
-    //         .then(request => request.json())
-    //         .then((data) => {
-    //             setDataApi(data)
-    //             setLoadingApi(false)
-    //         })
-    //         .catch(err => console.log(err))
-    // }
-
-    // useEffect(() => {
-    //     loadDataApi()
-    // }, [])
-    
     const { auth } = usePage().props;
 
     const [darkMode, setDarkMode] = useState(true);
@@ -164,7 +105,15 @@ const Dashboard = () => {
                 <Paper elevation={3} sx={{backgroundColor: darkMode ? '#1A1D28' : '#C37F25', height: 90, paddingX: 3 }}>
                     <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
                         <Grid item xs={9.5}>
-                            <Typography variant="h4" sx={{color:  '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
+                            <Stack direction="row" spacing={5} alignItems="center">
+                                <Typography variant="h4" sx={{color:  '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
+                                {
+                                    auth.user != null && 
+                                    <Typography onClick={()=>{navigate('/favorite')}} variant="h6" sx={{color: '#FFFFFF', textAlign: "center",'&:hover': { cursor: 'pointer' }}}>
+                                        My Favorites
+                                    </Typography>
+                                }
+                            </Stack>
                         </Grid>
                         <Grid item xs={2.5}>
                             <Stack flex={1}>

@@ -9,9 +9,43 @@ import UpdatePeakPlayer from "./UpdatePeakPlayer";
 import UpdateGameStatistic from "./UpdateGameStatistic";
 import InsertGameStatistic from "./InsertGameStatistic";
 import Loading from "./Loading.jsx"
+import LightMode from "../../../public/Light_Mode.png";
+import DarkMode from "../../../public/Dark_Mode.png";
+import FilledStarD from "../../../public/yellow_star.png";
+import FilledStarL from "../../../public/filled_star.png";
+import BlankStar from "../../../public/blank_star.png";
 
-const GameView =({ dataStat, data, dataPeak }) => {
+const GameView =({ dataStat, data, dataPeak, dataFav }) => {
     const { auth } = usePage().props;
+    const [darkMode, setDarkMode] = useState(true);
+    const [imageSource, setImageSource] = useState(DarkMode);
+    const [darkModeS, setDarkModeS] = useState(true);
+    const [imageSourceF, setImageSourceF] = useState(FilledStarD);
+    const [changeStar, setChangeStar] = Object.keys(dataFav).length === 0 ? useState(BlankStar) : useState(imageSourceF);
+    const [keyImg, setKeyImg] = Object.keys(dataFav).length === 0 ? useState(2) : useState(1); 
+    const [teksFav, setTeksFav] = Object.keys(dataFav).length === 0 ? useState("Add To Favorite") : useState("Favorited"); 
+    const [linkHref, setLinkHref] = Object.keys(dataFav).length === 0 ? useState("/addFavGame/"+dataStat.idGame+"/"+auth.user.id+"") : useState("/delFavGame/"+dataFav.id_favorit+"");
+    
+    const toggleDarkMode = () => {
+        const newDarkMode = !darkMode;
+        const newDarkModeS = !darkModeS;
+        const newImageSource = newDarkMode ? DarkMode : LightMode;
+        const newImageSourceF = newDarkMode ? FilledStarD : FilledStarL;
+
+        setDarkMode(newDarkMode);
+        setDarkModeS(newDarkModeS);
+        setImageSource(newImageSource);
+        setImageSourceF(newImageSourceF);
+
+        if (changeStar !== BlankStar) {
+            setChangeStar(newDarkMode ? FilledStarD : FilledStarL);
+        }
+    };
+    
+    const toggleChangeStar = () => {
+        
+    };
+
     var publisher = [];
     var developerer = [];
 
@@ -115,45 +149,55 @@ const GameView =({ dataStat, data, dataPeak }) => {
     return (
         <>
             <Box sx={{backgroundColor: '#13151E', width: auto, height: 90 }}>
-                    <Paper elevation={3} sx={{backgroundColor: '#1A1D28', height: 90, paddingX: 3 }}>
-                            <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
-                                <Grid item xs={9.5}>
-                                    {<a href="/"><Typography variant="h4" sx={{color: '#FFFFFF'}}>Sustraplay Library</Typography></a>}
-                                </Grid>
-                                <Grid item xs={2.5}>
-                                    <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, width: 384}}/>
-                                </Grid>
+                <Paper elevation={3} sx={{backgroundColor: '#1A1D28', height: 90, paddingX: 3 }}>
+                        <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
+                            <Grid item xs={9.5}>
+                                {<a href="/"><Typography variant="h4" sx={{color: '#FFFFFF'}}>Sustraplay Library</Typography></a>}
                             </Grid>
-                        </Paper>
-                        <Grid container>
-                            <Grid item xs= {12} sx={{padding: 2}}>
-                                <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
-                                {
-                                    auth.user != null ? 
-                                    <div>
-                                        <Typography sx={{color: "#FFFFFF"}}>Welcome, {auth.user.name}</Typography>
-                                        <InertiaLink href="/logout">
-                                        <Typography sx={{color: "#FFFFFF", textAlign: 'right'}}>Logout</Typography>
-                                        </InertiaLink>
-                                    </div> :
-                                    <div>
-                                        <div>
-                                            <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
-                                        </div>
-                                        <div style={{display: 'flex', gap: '8px'}}>
-                                            <Typography sx={{color: "#FFFFFF"}}>or</Typography>
-                                        </div>
-                                    </div>
-                                }
-                                </Stack>
+                            <Grid item xs={2.5}>
+                                <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, width: 384}}/>
                             </Grid>
                         </Grid>
-
+                    </Paper>
+                    <Grid container>
+                        <Grid item xs= {12} sx={{padding: 2}}>
+                            <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
+                            {
+                                auth.user != null ? 
+                                <div>
+                                    <Typography sx={{color: "#FFFFFF"}}>Welcome, {auth.user.name}</Typography>
+                                    <InertiaLink href="/logout">
+                                    <Typography sx={{color: "#FFFFFF", textAlign: 'right'}}>Logout</Typography>
+                                    </InertiaLink>
+                                </div> :
+                                <div>
+                                    <div>
+                                        <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
+                                    </div>
+                                    <div style={{display: 'flex', gap: '8px'}}>
+                                        <Typography sx={{color: "#FFFFFF"}}>or</Typography>
+                                    </div>
+                                </div>
+                            }
+                            </Stack>
+                        </Grid>
+                    </Grid>
                 </Box>
                 <Box sx={{backgroundColor: 'var(--main-background-color)', maxHeight: auto, width: auto, padding: 10, g: 10 }}>
-                    <Stack direction="column" justifyContent="flex-start" spacing={1}>
-                        <Typography sx={{color: "var(--main-text-color)", fontSize: 48, fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>{data.name}</Typography>
-                    </Stack>
+                    <Grid sx={{display: 'flex', gap: 2}}>
+                        <Stack direction="column" justifyContent="flex-start" spacing={1}>
+                            <Typography sx={{color: "var(--main-text-color)", fontSize: 48, fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>{data.name}</Typography>
+                        </Stack>
+                        {
+                            auth.user != null &&
+                                <Stack display='flex' direction="row" alignItems='center' justifyContent="flex-start" spacing={0.6}>
+                                    <InertiaLink href={linkHref}>
+                                        <img src={changeStar} key={keyImg} style={{width: 50, height: 50}}/>
+                                    </InertiaLink>
+                                    <Typography sx={{color: darkMode ? "var(--main-text-color)" : '#985027', fontSize: 16, fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>{teksFav}</Typography>
+                                </Stack>
+                        }
+                    </Grid>
                     <Grid container sx={{display: 'flex', justifyContent:'space-between', paddingTop: 10}} spacing={10}>
                         <Grid item xs={2.5} sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
                             <img src={data.cover.url} height={300} width={300}/>

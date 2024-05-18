@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Typography, TextField, Grid, Paper, Stack, colors, Divider, Button } from '@mui/material'
 import '../../css/app.css';
 import { Head, InertiaLink, usePage } from '@inertiajs/inertia-react';
 import { auto } from "@popperjs/core";
@@ -55,18 +54,37 @@ const Game =({ dataStat }) => {
             }).catch(err => console.log(err))
     }
 
+    const [favGame, setFavGame] = useState(null);
+    const [loadFav, setLoadFav] = useState(true);
+
+    async function getFavGame(){
+        const response = await fetch(
+            "/getFavorit/"+dataStat.idGame+"/"+auth.user.id,
+            {headers: {'Accept': 'application/json'}})
+            .then(request => request.json())
+            .then((data) => {
+                setFavGame(data)
+                setLoadFav(false)
+            }).catch(err => console.log(err))
+    }
+
     useEffect(() => {
         loadDataApi()
         loadPeakGame()
+        if(auth.user != null){
+            getFavGame()
+        }else{
+            setLoadFav(true)
+        }
     }, [])
 
-    if(loading || loadPeak){
+    if(loading || loadPeak || loadFav){
         return (<Loading/>)
     }
 
     return (
         <>
-            <GameView data={data} dataPeak={dataPeak} dataStat={dataStat}/>
+            <GameView data={data} dataPeak={dataPeak} dataStat={dataStat} dataFav={favGame}/>
         </>
     )
 }

@@ -24,6 +24,24 @@ class dbController extends Controller
         return response()->json($data);
     }
     
+    public function getFavGame($idGame, $idUsers){
+        $data = DB::table('tbl_favorit')->where('id_game', $idGame)->where('id_users', $idUsers)->first();
+        return response()->json($data);
+    }
+
+    public function addFavGame($idGame, $idUsers){
+        DB::table('tbl_favorit')->insert(['id_game' => $idGame, 'id_users' => $idUsers]);
+    }
+
+    public function delFavGame($idFav){
+        DB::table('tbl_favorit')->where('id_favorit', $idFav)->delete();
+    }
+
+    public function showFavGame($idUsers){
+        $data = DB::table('tbl_favorit')->where('id_users', $idUsers)->get();
+        return response()->json($data);
+    }
+
     public function showPageGame($idGame){
         $monthNames = [
             "January", "February", "March", "April", "May", "June",

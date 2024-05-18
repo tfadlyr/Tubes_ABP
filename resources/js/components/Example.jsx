@@ -16,6 +16,7 @@ function Example() {
                 <Routes>
                     <Route path="/" element={<Dashboard/>} />
                     <Route path="/search/:search" element={<Search_page/>}/>
+                    <Route path='/favorite' element={<Favorites/>}/>
                 </Routes>
             </Router>
         </>

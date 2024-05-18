@@ -22,7 +22,7 @@ const Game_Component = ({ darkMode, dataGame, dataPeak, cekStat }) => {
     
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
-      };
+    };
 
     const directTo = "/game/"+dataGame.id;
 
