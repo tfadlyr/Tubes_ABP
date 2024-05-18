@@ -1,5 +1,6 @@
 import React from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Typography, TextField, Grid, Paper, Stack, colors, Divider, Button } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box, Typography, TextField, Grid, Paper, Stack} from '@mui/material'
+import { useState } from "react";
 import '../../css/app.css';
 import { auto } from "@popperjs/core";
 import UpdateInGame from "./UpdateInGame";
@@ -7,11 +8,21 @@ import UpdatePeakPlayer from "./UpdatePeakPlayer";
 import UpdateGameStatistic from "./UpdateGameStatistic";
 import InsertGameStatistic from "./InsertGameStatistic";
 
-const Game =() => {
+import LightMode from "../../../public/Light_Mode.png";
+import DarkMode from "../../../public/Dark_Mode.png";
+
+const Game = () => {
+    const [darkMode, setDarkMode] = useState(true);
+    const [imageSource, setImageSource] = useState(DarkMode);
+
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+        setImageSource(darkMode ? LightMode : DarkMode);
+    };
     return (
         <>
-            <Box sx={{backgroundColor: '#13151E', width: auto}}>
-                <Paper elevation={3} sx={{backgroundColor: '#1A1D28', height: 90, paddingX: 3 }}>
+            <Box sx={{backgroundColor: darkMode ? '#13151e' : '#f09d30', width: auto}}>
+                <Paper elevation={3} sx={{backgroundColor: darkMode ? '#1A1D28' : '#C37F25', height: 90, paddingX: 3 }}>
                     <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
                         <Grid item xs={9.5}>
                             <Typography variant="h4" sx={{color: '#FFFFFF'}}>Sustraplay Library</Typography>
@@ -22,7 +33,7 @@ const Game =() => {
                     </Grid>
                 </Paper>
             </Box>
-            <Box sx={{backgroundColor: 'var(--main-background-color)', width: auto, maxHeight: auto, padding: 10, g: 10 }}>
+            <Box sx={{backgroundColor: darkMode ? '#13151e' : '#f09d30', width: auto, maxHeight: auto, padding: 10, g: 10 }}>
                 <Stack direction="column" justifyContent="flex-start" spacing={1}>
                     <Typography sx={{color: "var(--main-text-color)", fontSize: 48, fontWeight: 'bold', '&:hover': { cursor: 'pointer'}}}>Counter-Strike 2</Typography>
                 </Stack>
@@ -93,6 +104,7 @@ const Game =() => {
                         </Stack>
                     </Grid>
                 </Grid>
+
                 <Grid sx={{paddingTop: 10}}>
                     <Box sx={{border: '1px solid white', borderRadius: 10, paddingX: 5, display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
                         <Typography sx={{fontSize: 32, color: 'var(--main-text-color)'}}>Game Statistic</Typography>
@@ -111,12 +123,14 @@ const Game =() => {
                     </Box>
                     <Box sx={{display: 'flex', justifyContent: 'space-around', marginTop: 4}}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12}>
                                 <TableContainer>
-                                    <Table sx={{backgroundColor: 'var(--main-background-color)'}}>
+                                    <Table sx={{backgroundColor: darkMode ? '#13151e' : '#f09d30'}}>
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell sx={{color: 'var(--main-text-color)'}}>Year</TableCell>
+                                                <TableCell sx={{color: 'var(--main-text-color)'}}>Month</TableCell>
+                                                <TableCell sx={{color: 'var(--main-text-color)'}}>Month</TableCell>
                                                 <TableCell sx={{color: 'var(--main-text-color)'}}>Month</TableCell>
                                             </TableRow>
                                         </TableHead>
@@ -155,46 +169,9 @@ const Game =() => {
                                     </Table>
                                 </TableContainer>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TableContainer sx={{backgroundColor: 'var(--main-background-color)'}}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell sx={{color: 'var(--main-text-color)'}}>Peak</TableCell>
-                                                <TableCell sx={{color: 'var(--main-text-color)'}}>Gain</TableCell>
-                                                <TableCell sx={{color: 'var(--main-text-color)'}}>Update or Delete</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            <TableRow>
-                                                <TableCell>
-                                                    <Stack spacing={1}>
-                                                        <Typography sx={{color: 'var(--main-text-color)'}}>809,142</Typography>
-                                                        <Typography sx={{color: 'var(--main-text-color)'}}>701,954</Typography>
-                                                        <Typography sx={{color: 'var(--main-text-color)'}}>1,121,309</Typography>
-                                                        <Typography sx={{color: 'var(--main-text-color)'}}>991,911</Typography>
-                                                    </Stack>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Stack spacing={1}>
-                                                        <Typography sx={{color: 'var(--main-text-color)'}}>+[...]%</Typography>
-                                                        <Typography sx={{color: 'var(--main-text-color)'}}>=-[...]%</Typography>
-                                                        <Typography sx={{color: 'var(--main-text-color)'}}>+[...]%</Typography>
-                                                        <Typography sx={{color: 'var(--main-text-color)'}}>+/-[...]%</Typography>
-                                                    </Stack>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Stack spacing={1}>
-                                                        <UpdateGameStatistic />
-                                                    </Stack>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Grid>
                         </Grid>
                     </Box>
+                    <img src={imageSource} style={{height: 100}} onClick={toggleDarkMode}/>
                 </Grid>
             </Box>
         </>
