@@ -4,8 +4,11 @@ import { useState } from "react";
 import { auto } from "@popperjs/core";
 import LightMode from "../../../public/Light_Mode.png";
 import DarkMode from "../../../public/Dark_Mode.png";
+import { useParams, Link } from "react-router-dom";
 
-const Search_page = ({search}) => {
+const Search_page = () => {
+    const {search} = useParams();
+    
     const [darkMode, setDarkMode] = useState(true);
     const [imageSource, setImageSource] = useState(DarkMode);
   
@@ -21,7 +24,9 @@ const Search_page = ({search}) => {
                     <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
                         <Grid item xs={9.5}>
                             <Stack direction="row" spacing={5} alignItems="center">
-                                <Typography variant="h4" sx={{color:  '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
+                                <Link to={`/`}>
+                                    <Typography variant="h4" sx={{color:  '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
+                                </Link>
                                 <Typography variant="h6" sx={{color: '#FFFFFF', textAlign: "center",'&:hover': { cursor: 'pointer' }}}>
                                     My Favorites
                                 </Typography>

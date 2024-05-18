@@ -12,17 +12,18 @@ import Search_page from './Search_page'
 function Example() {
     return (
         <>
-            {/* <Router>
+            <Router>
                 <Routes>
                 <Route path="/" element={<Dashboard/>} />
                 <Route path="/game" element={<Game/>} />
+                <Route path="/search/:search" element={<Search_page/>}/>
                 </Routes>
-            </Router> */}
+            </Router>
             {/* <Loading/> */}
             {/* <Favorites/> */}
             {/* <SignUp_page/> */}
             {/* <Login_page/> */}
-            <Search_page/>
+            {/* <Search_page/> */}
         </>
     );
 }

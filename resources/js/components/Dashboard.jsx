@@ -4,6 +4,7 @@ import { Box, Typography, TextField, Grid, Paper, Stack } from '@mui/material'
 // import Login from "./Login";
 import Game_Component from "./Game_Component";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auto } from "@popperjs/core";
 import LightMode from "../../../public/Light_Mode.png";
 import DarkMode from "../../../public/Dark_Mode.png";
@@ -18,6 +19,15 @@ const Dashboard = () => {
       setImageSource(darkMode ? LightMode : DarkMode);
     };
 
+    const [search, setSearch] = useState('');
+    const navigate = useNavigate();
+  
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+        navigate(`/search/${search}`);
+      }
+    };
+    
     return (
         <>
             <Box sx={{backgroundColor: darkMode ? '#13151E' : "#F09D30", width: auto, height: auto, minHeight: '100vh' }}>
@@ -33,7 +43,15 @@ const Dashboard = () => {
                         </Grid>
                         <Grid item xs={2.5}>
                             <Stack flex={1}>
-                                <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, maxWidth: 384}}/>
+                                <TextField
+                                 id="outlined-basic"
+                                 label="Search" 
+                                 variant="outlined" 
+                                 sx={{backgroundColor: '#FFFFFF', borderRadius: 2, maxWidth: 384}}
+                                 value={search}
+                                 onChange={(e) => setSearch(e.target.value)}
+                                 onKeyDown={handleKeyDown}
+                                />
                             </Stack>
                         </Grid>
                     </Grid>
