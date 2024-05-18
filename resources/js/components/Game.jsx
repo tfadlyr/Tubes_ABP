@@ -41,13 +41,13 @@ const Game = () => {
     };
     
     const toggleChangeStar = () => {
-    if (changeStar === BlankStar) {
-        setChangeStar(imageSourceF);
-        setKeyImg(2);
-    } else {
-        setChangeStar(BlankStar);
-        setKeyImg(1);
-    }
+        if (changeStar === BlankStar) {
+            setChangeStar(imageSourceF);
+            setKeyImg(2);
+        } else {
+            setChangeStar(BlankStar);
+            setKeyImg(1);
+        }
     };
 
     return (
