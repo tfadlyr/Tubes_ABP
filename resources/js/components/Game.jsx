@@ -22,21 +22,19 @@ const Game = () => {
     const [changeStar, setChangeStar] = useState(BlankStar);
     const [keyImg, setKeyImg] = useState(2);  
 
-    useEffect(() => {
-        setImageSource(darkMode ? DarkMode : LightMode);
-        setImageSourceF(darkMode ? FilledStarD : FilledStarL);
-        if (changeStar !== BlankStar) {
-            setChangeStar(darkMode ? FilledStarD : FilledStarL);
-        }
-    }, [darkMode]);
-
     const toggleDarkMode = () => {
-        setDarkMode(prevMode => !prevMode);
-        setDarkModeS(prevMode => !prevMode);
-        setImageSource(darkMode ? LightMode : DarkMode);
-        setImageSourceF(darkModeS ? FilledStarL : FilledStarD);
+        const newDarkMode = !darkMode;
+        const newDarkModeS = !darkModeS;
+        const newImageSource = newDarkMode ? DarkMode : LightMode;
+        const newImageSourceF = newDarkMode ? FilledStarD : FilledStarL;
+
+        setDarkMode(newDarkMode);
+        setDarkModeS(newDarkModeS);
+        setImageSource(newImageSource);
+        setImageSourceF(newImageSourceF);
+
         if (changeStar !== BlankStar) {
-            setChangeStar(darkMode ? FilledStarL : FilledStarD);
+            setChangeStar(newDarkMode ? FilledStarD : FilledStarL);
         }
     };
     
