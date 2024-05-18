@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, TextField, Grid, Paper, Stack } from '@mui/material'
-import Sign_up from "./Sign_up";
-import Login from "./Login";
+// import Sign_up from "./Sign_up";
+// import Login from "./Login";
 import Game_Component from "./Game_Component";
 import { useState } from "react";
 import { auto } from "@popperjs/core";
@@ -24,7 +24,12 @@ const Dashboard = () => {
                 <Paper elevation={3} sx={{backgroundColor: darkMode ? '#1A1D28' : '#C37F25', height: 90, paddingX: 3 }}>
                     <Grid container justifyContent="center" alignItems="center" sx={{padding: 2}}>
                         <Grid item xs={9.5}>
-                            <Typography variant="h4" sx={{color:  '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
+                            <Stack direction="row" spacing={5} alignItems="center">
+                                <Typography variant="h4" sx={{color:  '#FFFFFF', fontWeight: "bold"}}>Sustraplay Library</Typography>
+                                <Typography variant="h6" sx={{color: '#FFFFFF', textAlign: "center",'&:hover': { cursor: 'pointer' }}}>
+                                    My Favorites
+                                </Typography>
+                            </Stack>
                         </Grid>
                         <Grid item xs={2.5}>
                             <TextField id="outlined-basic" label="Search" variant="outlined" sx={{backgroundColor: '#FFFFFF', borderRadius: 2, width: 384}}/>
@@ -35,9 +40,9 @@ const Dashboard = () => {
                     <Grid item xs= {12} sx={{padding: 2}}>
                         <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
                             <Typography sx={{color: "#FFFFFF"}}>You're not logged in, </Typography>
-                            <Login/>
+                            {/* <Login/> */}
                             <Typography sx={{color: "#FFFFFF"}}>or</Typography>
-                            <Sign_up/>
+                            {/* <Sign_up/> */}
                         </Stack>
                     </Grid>
                     <Grid item xs={12}>
