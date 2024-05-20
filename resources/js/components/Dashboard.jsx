@@ -45,7 +45,7 @@ const Dashboard = () => {
                             <Stack flex={1}>
                                 <TextField
                                  id="outlined-basic"
-                                 label="Search" 
+                                 placeholder="Search" 
                                  variant="outlined" 
                                  sx={{backgroundColor: '#FFFFFF', borderRadius: 2, maxWidth: 384}}
                                  value={search}
